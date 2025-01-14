@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -46,6 +48,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
+
+    /**
+     * @var Collection<int, BankAccount>
+     */
+    #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'UserId', orphanRemoval: true)]
+    private Collection $bankAccounts;
+
+    public function __construct()
+    {
+        $this->bankAccounts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -177,6 +190,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BankAccount>
+     */
+    public function getBankAccounts(): Collection
+    {
+        return $this->bankAccounts;
+    }
+
+    public function addBankAccount(BankAccount $bankAccount): static
+    {
+        if (!$this->bankAccounts->contains($bankAccount)) {
+            $this->bankAccounts->add($bankAccount);
+            $bankAccount->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBankAccount(BankAccount $bankAccount): static
+    {
+        if ($this->bankAccounts->removeElement($bankAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($bankAccount->getUserId() === $this) {
+                $bankAccount->setUserId(null);
+            }
+        }
 
         return $this;
     }

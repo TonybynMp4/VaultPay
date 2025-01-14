@@ -26,6 +26,12 @@ class Transaction
     #[ORM\Column]
     private ?bool $Cancel = null;
 
+    #[ORM\ManyToOne(inversedBy: 'outgoingTransactions')]
+    private ?BankAccount $FromAccount = null;
+
+    #[ORM\ManyToOne(inversedBy: 'IncomingTransactions')]
+    private ?BankAccount $ToAccount = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,30 @@ class Transaction
     public function setCancel(bool $Cancel): static
     {
         $this->Cancel = $Cancel;
+
+        return $this;
+    }
+
+    public function getFromAccount(): ?BankAccount
+    {
+        return $this->FromAccount;
+    }
+
+    public function setFromAccount(?BankAccount $FromAccount): static
+    {
+        $this->FromAccount = $FromAccount;
+
+        return $this;
+    }
+
+    public function getToAccount(): ?BankAccount
+    {
+        return $this->ToAccount;
+    }
+
+    public function setToAccount(?BankAccount $ToAccount): static
+    {
+        $this->ToAccount = $ToAccount;
 
         return $this;
     }
