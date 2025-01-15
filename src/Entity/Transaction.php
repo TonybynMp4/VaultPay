@@ -17,14 +17,15 @@ class Transaction
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $Date = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Type = null;
+    // 0: Virement, 1: Retrait, 2: Dépôt
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $Type = 0;
 
     #[ORM\Column]
     private ?float $Amount = null;
 
     #[ORM\Column]
-    private ?bool $Cancel = null;
+    private ?bool $Cancel = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Label = null;
