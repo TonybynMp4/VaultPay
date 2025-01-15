@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Users;
 use App\Entity\BankAccount;
 use App\Entity\Transaction;
 use App\Repository\UserRepository;

@@ -23,7 +23,7 @@ class BankAccount
 
     #[ORM\ManyToOne(inversedBy: 'bankAccounts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $UserId = null;
+    private ?Users $UserId = null;
 
     /**
      * @var Collection<int, Transaction>
@@ -72,12 +72,12 @@ class BankAccount
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUserId(): ?Users
     {
         return $this->UserId;
     }
 
-    public function setUserId(?User $UserId): static
+    public function setUserId(?Users $UserId): static
     {
         $this->UserId = $UserId;
 
