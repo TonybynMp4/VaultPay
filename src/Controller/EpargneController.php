@@ -11,8 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;  // ✅ Correct
 
 final class EpargneController extends AbstractController
 {
-    /*  #[IsGranted('ROLE_USER')]
-     */
+    #[IsGranted('ROLE_USER')]
     #[Route('/epargne', name: 'app_epargne')]
     public function index(): Response
     {
@@ -40,7 +39,7 @@ final class EpargneController extends AbstractController
         // Créer un compte épargne
         $compte = new BankAccount();
         $compte->setUserId($user);
-        $compte->setSolde(10.00);
+        $compte->setBalance(10.00);
         $compte->setClose(false);
 
         $entityManager->persist($compte);

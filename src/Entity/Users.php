@@ -47,7 +47,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, BankAccount>
      */
-    #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'UserId', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'Users', orphanRemoval: true)]
     private Collection $bankAccounts;
 
     public function __construct()

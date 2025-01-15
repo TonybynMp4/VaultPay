@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BankAccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BankAccountRepository::class)]
@@ -16,14 +17,14 @@ class BankAccount
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $Solde = null;
+    private ?float $balance = null;
 
     #[ORM\Column]
     private ?bool $Close = null;
 
     #[ORM\ManyToOne(inversedBy: 'bankAccounts')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Users $UserId = null;
+    private ?Users $Users = null;
 
     /**
      * @var Collection<int, Transaction>
@@ -40,6 +41,10 @@ class BankAccount
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
+    // 0: Courant, 1: Epargne
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $type = 0;
+
     public function __construct()
     {
         $this->outgoingTransactions = new ArrayCollection();
@@ -51,14 +56,14 @@ class BankAccount
         return $this->id;
     }
 
-    public function getSolde(): ?float
+    public function getBalance(): ?float
     {
-        return $this->Solde;
+        return $this->balance;
     }
 
-    public function setSolde(float $Solde): static
+    public function setBalance(float $balance): static
     {
-        $this->Solde = $Solde;
+        $this->balance = $balance;
 
         return $this;
     }
@@ -77,12 +82,12 @@ class BankAccount
 
     public function getUserId(): ?Users
     {
-        return $this->UserId;
+        return $this->Users;
     }
 
     public function setUserId(?Users $UserId): static
     {
-        $this->UserId = $UserId;
+        $this->Users = $UserId;
 
         return $this;
     }
@@ -155,6 +160,18 @@ class BankAccount
     public function setName(string $Name): static
     {
         $this->Name = $Name;
+
+        return $this;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

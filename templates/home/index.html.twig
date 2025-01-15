@@ -12,7 +12,7 @@
     <div class="main-columns">
       <div class="main-column solde">
         <div class="montant-solde">
-        <p class="chiffre">{{bankAccount.getSolde()|number_format(2, '.', ' ')}}€</p>
+        <p class="chiffre">{{bankAccount.getBalance()|number_format(2, '.', ' ')}}€</p>
         <p class="txt">Solde disponible</p>
         </div>
 
@@ -46,10 +46,10 @@
         <div class="main-separator"></div>
         <div class="main-column action">
             <div class="button-grid">
-                <button class="big-button">Effectuer un <span>virement</span></button>
+                <a href="{{ path('transaction_transfer') }}" class="big-button">Effectuer un <span>virement</span></a>
+                <a href="{{ path('transaction_deposit') }}" class="big-button">Effectuer un <span>dépôt</span></a>
+                <a href="{{ path('transaction_withdraw') }}" class="big-button">Effectuer un <span>retrait</span></a>
                 <button class="big-button">Voir mes <span>transactions</span></button>
-                <button class="big-button">Effectuer un <span>dépôt</span></button>
-                <button class="big-button">Effectuer un <span>retrait</span></button>
             </div>
         </div>
     </div>

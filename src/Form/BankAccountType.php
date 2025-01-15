@@ -17,7 +17,7 @@ class BankAccountType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom du compte',
             ])
-            ->add('solde', MoneyType::class, [
+            ->add('balance', MoneyType::class, [
                 'label' => 'Montant initial',
                 'currency' => 'EUR',
             ]);

@@ -37,14 +37,14 @@
     </div>
 
     <!-- Section Liste des Comptes -->
-    
+
     <div class="accounts-list">
     <h3>Mes Comptes</h3>
     <ul>
         {% for account in user.bankAccounts %}
             <li class="account-item">
                 <span class="account-name">{{ account.name }}</span>
-                <span class="account-solde">{{ account.solde | number_format(2, ',', ' ') }} €</span>
+                <span class="account-solde">{{ account.balance | number_format(2, ',', ' ') }} €</span>
 
                 <!-- Formulaire pour supprimer le compte -->
                 <form method="post" action="{{ path('delete_account', {id: account.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?');">
