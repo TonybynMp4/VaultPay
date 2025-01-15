@@ -39,6 +39,11 @@ class TransactionController extends AbstractController
 
             $error = false;
 
+            if ($fromAccountId === $toAccountId) {
+                $this->addFlash('error', 'Les comptes source et destination doivent être différents.');
+                $error = true;
+            }
+
             if ($amount <= 0) {
                 $this->addFlash('error', 'Le montant doit être positif.');
                 $error = true;
@@ -100,7 +105,6 @@ class TransactionController extends AbstractController
     #[Route('/transaction/deposit', name: 'transaction_deposit')]
     public function showDepot(
         Request $request,
-        BankAccountRepository $bankAccountRepository,
         EntityManagerInterface $entityManager
     ): Response {
         $form = $this->createForm(DepositFormType::class, null, [
