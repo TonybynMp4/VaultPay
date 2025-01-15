@@ -1,0 +1,149 @@
+/* Appliquer un fond en dégradé à la page entière */
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    #005dbb,
+    #5100c3
+  ); /* Dégradé bleu-violet */
+  font-family: Arial, sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh !important;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+main {
+  width: 100%;
+  margin: 20px;
+}
+
+/* Configuration des colonnes */
+.main-columns {
+  height: 80vh;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.main-column {
+  width: 45%; /* Chaque colonne prendra environ la moitié de la largeur disponible */
+}
+
+.main-column p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+.main-separator {
+  width: 1px;
+  background-color: #fff; /* Barre blanche */
+  height: auto;
+  margin: 0 20px; /* Un peu d'espace autour de la barre */
+}
+/*solde*/
+.solde {
+  width: 30%;
+  background-color: #fff;
+  border-radius: 20px;
+}
+.montant-solde {
+  background-color: #005dbb;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  color: #fff;
+  text-align: center;
+  max-height: 30%;
+}
+.montant-solde .chiffre {
+  color: #fff;
+  font-size: 300%;
+  font-weight: bold;
+}
+.montant-solde .txt {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.historique {
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  color: #005dbb;
+}
+.historique .txt {
+  color: #005dbb;
+  font-size: 1.2rem;
+  text-decoration: underline;
+  font-weight: 500;
+}
+.historique {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  overflow: hidden;
+  max-height: 70%;
+}
+
+.operations {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.operation-details {
+  font-size: 1rem;
+  color: #000;
+}
+
+.operation-date {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+.operation-divider {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 10px 0;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Deux colonnes */
+  gap: 20px; /* Espacement entre les boutons */
+  margin-top: 20px;
+}
+
+.big-button {
+  width: 100%;
+  padding: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #3498db;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.big-button:hover {
+  background-color: #2980b9; /* Couleur au survol */
+}
+
+.big-button:active {
+  background-color: #1c6ea4; /* Couleur au clic */
+}

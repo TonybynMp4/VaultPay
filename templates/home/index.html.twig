@@ -4,7 +4,47 @@
 {% block title %}{% endblock %}
 
 {% block stylesheets %}
+
 {% endblock %}
 
 {% block main %}
+<main>
+    <div class="main-columns">
+      <div class="main-column solde">
+        <div class="montant-solde">
+        <p class="chiffre">+{{soldePrincipal}}€</p>
+        <p class="txt">Solde disponible</p>
+        </div>
+
+        <div class="historique">
+                <p class="txt">Historique :</p>
+                <ul class="operations">
+                    {% for paiement in paiements %}
+                        <li class="operation">
+                            <div class="operation-details">
+                                <strong>{{ paiement.nom }}</strong> - 
+                                {{ paiement.montant|number_format(2, ',', ' ') }}€
+                            </div>
+                            <div class="operation-date">
+                                {{ paiement.date }}
+                            </div>
+                        </li>
+                        {% if not loop.last %}
+                            <hr class="operation-divider">
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="main-separator"></div>
+        <div class="main-column action">
+            <div class="button-grid">
+                <button class="big-button">Bouton 1</button>
+                <button class="big-button">Bouton 2</button>
+                <button class="big-button">Bouton 3</button>
+                <button class="big-button">Bouton 4</button>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
