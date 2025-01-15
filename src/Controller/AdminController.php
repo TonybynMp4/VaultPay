@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Users;
 use App\Entity\BankAccount;
 use App\Entity\Transaction;
-use App\Repository\UserRepository;
+use App\Repository\UsersRepository;
 use App\Repository\BankAccountRepository;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,7 @@ class AdminController extends AbstractController
     private $bankAccountRepository;
     private $transactionRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, BankAccountRepository $bankAccountRepository, TransactionRepository $transactionRepository)
+    public function __construct(EntityManagerInterface $entityManager, UsersRepository $userRepository, BankAccountRepository $bankAccountRepository, TransactionRepository $transactionRepository)
     {
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
