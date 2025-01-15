@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TransactionController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
-    #[Route('/transaction-test', name: 'transaction_test')]
+    #[Route('/transaction-test', name: 'app_transaction')]
     public function testTransaction(
         Request $request,
         BankAccountRepository $bankAccountRepository,
