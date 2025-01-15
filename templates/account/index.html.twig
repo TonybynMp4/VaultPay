@@ -1,24 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}Mes Comptes{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('styles/account.css') }}">
 {% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
+<main id="account">
+    <div class="account-container">
+        <!-- Section Avatar et Informations -->
+        <div class="profile-section">
+            <div class="avatar">
+                <img src="{{ asset('images/avatar.jpg') }}" alt="Avatar" class="avatar-img">
+            </div>
+            <div class="info">
+                <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+            </div>
+        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <!-- Section Options du compte -->
+        <div class="options-grid">
+            <div class="option">
+                <button class="option-btn">Modifier le profil</button>
+            </div>
+            <div class="option">
+                <button class="option-btn">Historique des transactions</button>
+            </div>
+            <div class="option">
+                <button class="option-btn">Paramètres de sécurité</button>
+            </div>
+            <div class="option">
+                <button class="option-btn">Déconnexion</button>
+            </div>
+        </div>
+    </div>
 
-    This friendly message is coming from:
+    <!-- Section Liste des Comptes -->
+    
+    <div class="accounts-list">
+    <h3>Mes Comptes</h3>
     <ul>
-        <li>Your controller at <code>C:/Users/journ/OneDrive/Bureau/EFREI/Challenge Web 2/VaultPay/src/Controller/AccountController.php</code></li>
-        <li>Your template at <code>C:/Users/journ/OneDrive/Bureau/EFREI/Challenge Web 2/VaultPay/templates/account/index.html.twig</code></li>
+        {% for account in user.bankAccounts %}
+            <li class="account-item">
+                <span class="account-name">{{ account.name }}</span>
+                <span class="account-solde">{{ account.solde | number_format(2, ',', ' ') }} €</span>
+
+                <!-- Formulaire pour supprimer le compte -->
+                <form method="post" action="{{ path('delete_account', {id: account.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?');">
+                    <button type="submit" class="delete-btn">Supprimer</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Aucun compte trouvé.</li>
+        {% endfor %}
     </ul>
 </div>
+
+
+    <!-- Bouton Ajouter un compte -->
+    <div class="add-account">
+        <a href="{{ path('new_account') }}" class="add-account-btn">Ajouter un nouveau compte</a>
+    </div>
+</main>
 {% endblock %}

@@ -2,8 +2,12 @@
 
 {% block title %}Register{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles/logregister.css') }}">
+{% endblock %}
+
 {% block main %}
-	<main>
+	<main id="logregister">
 
 		{{ form_errors(registrationForm) }}
 

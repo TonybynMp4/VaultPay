@@ -30,6 +30,8 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            $user->setRoles(['ROLE_USER']);
+
             $entityManager->persist($user);
 
             // create main bank account
@@ -37,6 +39,7 @@ class RegistrationController extends AbstractController
             $bankAccount->setUserId($user);
             $bankAccount->setSolde(0);
             $bankAccount->setClose(false);
+            $bankAccount->setName('Compte principal');
 
             $entityManager->persist($bankAccount);
             $entityManager->flush();
