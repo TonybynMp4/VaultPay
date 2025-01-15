@@ -128,15 +128,16 @@ main {
 }
 
 .big-button {
+  border: none;
   height: 20vh;
   width: 100%;
   padding: 20px;
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
-  background-color: #005dbb;
-  border: solid 1px #fff;
-  border-radius: 8px;
+  background-color: #ffffff3b;
+  border-left: solid 2px #ffffff;
+  border-radius: 1px 8px 8px 1px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -145,7 +146,7 @@ main {
   text-decoration: underline;
 }
 .big-button:hover {
-  background-color: #2980b9; /* Couleur au survol */
+  background-color: #ffffff66; /* Couleur au survol */
 }
 
 .big-button:active {
