@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Retrait{% endblock %}
-{% block stylesheets%}<link rel="stylesheet" href="{{ asset('styles/transactions.css') }}">{% endblock %}
+{% block stylesheets%}<link rel="stylesheet" href="{{ asset('styles/transactions/withdraw.css') }}">{% endblock %}
 
 
 {% block main %}
     <main id="transaction">
-    <h1>Effectuer un <span>retrait</span></h1>
+        <h1>Effectuer un <span>retrait</span></h1>
 
-    {% for message in app.flashes('success') %}
-        <div style="color: green; font-weight: bold;">{{ message }}</div>
-    {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div style="color: green; font-weight: bold;">{{ message }}</div>
+        {% endfor %}
 
-    {% for message in app.flashes('error') %}
-        <div style="color: red; font-weight: bold;">{{ message }}</div>
-    {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div style="color: red; font-weight: bold;">{{ message }}</div>
+        {% endfor %}
 
-    {{ form_start(form) }}
-        {{ form_row(form.from_account_id) }}
-        {{ form_row(form.amount) }}
-        {{ form_row(form.label) }}
-        {{ form_row(form.submit) }}
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+            {{ form_row(form.from_account_id) }}
+            {{ form_row(form.amount) }}
+            {{ form_row(form.label) }}
+            {{ form_row(form.submit) }}
+        {{ form_end(form) }}
     </main>
 {% endblock %}

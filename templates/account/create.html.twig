@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer un nouveau compte{% endblock %}
+{% block title %}VaultPay | Créer un compte bancaire{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/account/createForm.css') }}">
+{% endblock %}
 
 {% block main %}
-    <h1>Créer un nouveau compte</h1>
+    <main>
+        <h1>Créer un nouveau compte</h1>
 
-    {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.balance) }}
-        <button type="submit" class="btn btn-primary">Créer</button>
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.balance) }}
+            <button type="submit" class="btn btn-primary">Créer</button>
+        {{ form_end(form) }}
+    </main>
 {% endblock %}
