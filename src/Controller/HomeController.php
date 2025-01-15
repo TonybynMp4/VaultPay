@@ -8,9 +8,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController {
     #[Route('/', name: 'home')]
     public function index() {
-        if (!$this->getUser()) {
+       /*  if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
-        }
+        } */
 
         $bankAccount = $this->getUser()->getBankAccounts()[0];
         $transactions = array_merge(
