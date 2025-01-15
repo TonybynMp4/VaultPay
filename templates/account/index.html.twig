@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}Mes Comptes{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('styles/account.css') }}">
@@ -36,18 +36,31 @@
         </div>
     </div>
 
+    <!-- Section Liste des Comptes -->
+    
     <div class="accounts-list">
-        <h3>Mes Comptes</h3>
-        <ul>
-            {% for account in user.bankAccounts %}
-                <li>
-                    <div class="account-item">
-                        <span class="account-name">{{ account.name }}</span>
-                        <span class="account-solde">{{ account.solde | number_format(2, ',', ' ') }} €</span>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+    <h3>Mes Comptes</h3>
+    <ul>
+        {% for account in user.bankAccounts %}
+            <li class="account-item">
+                <span class="account-name">{{ account.name }}</span>
+                <span class="account-solde">{{ account.solde | number_format(2, ',', ' ') }} €</span>
+
+                <!-- Formulaire pour supprimer le compte -->
+                <form method="post" action="{{ path('delete_account', {id: account.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?');">
+                    <button type="submit" class="delete-btn">Supprimer</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Aucun compte trouvé.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+    <!-- Bouton Ajouter un compte -->
+    <div class="add-account">
+        <a href="{{ path('new_account') }}" class="add-account-btn">Ajouter un nouveau compte</a>
     </div>
 </main>
 {% endblock %}
