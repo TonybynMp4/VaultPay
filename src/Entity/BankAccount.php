@@ -37,6 +37,9 @@ class BankAccount
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'ToAccount')]
     private Collection $IncomingTransactions;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Name = null;
+
     public function __construct()
     {
         $this->outgoingTransactions = new ArrayCollection();
@@ -140,6 +143,18 @@ class BankAccount
                 $incomingTransaction->setToAccount(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->Name;
+    }
+
+    public function setName(string $Name): static
+    {
+        $this->Name = $Name;
 
         return $this;
     }

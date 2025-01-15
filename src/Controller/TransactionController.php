@@ -76,7 +76,7 @@ class TransactionController extends AbstractController
                     $this->addFlash('success', 'Transaction effectuée avec succès.');
                 }
             }
-            return $this->redirectToRoute('transaction_test');
+            return $this->redirectToRoute('app_transaction');
         }
 
         return $this->render('transaction/test.html.twig', [

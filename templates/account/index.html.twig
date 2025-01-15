@@ -16,7 +16,6 @@
             </div>
             <div class="info">
                 <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-                <p>Âge : {{ user.age }} ans</p>
             </div>
         </div>
 
@@ -35,6 +34,20 @@
                 <button class="option-btn">Déconnexion</button>
             </div>
         </div>
+    </div>
+
+    <div class="accounts-list">
+        <h3>Mes Comptes</h3>
+        <ul>
+            {% for account in user.bankAccounts %}
+                <li>
+                    <div class="account-item">
+                        <span class="account-name">{{ account.name }}</span>
+                        <span class="account-solde">{{ account.solde | number_format(2, ',', ' ') }} €</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 </main>
 {% endblock %}

@@ -11,10 +11,19 @@ final class AccountController extends AbstractController
     #[Route('/account', name: 'app_account')]
     public function index(): Response
     {
-        // Création d'un utilisateur fictif avec des données d'exemple
-        
+        $user = $this->getUser();
 
-        // Rendre la vue avec les informations de l'utilisateur
+        return $this->render('account/index.html.twig', [
+            'user' => $user,
+        ]);
+
+        $bankAccounts = $user->getBankAccounts();
+
+        return $this->render('account/index.html.twig', [
+            'user' => $user,
+            'bankAccounts' => $bankAccounts,
+        ]);
+
         return $this->render('account/index.html.twig', [
         ]);
     }
