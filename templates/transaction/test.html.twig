@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Test de Virement{% endblock %}
+{% block stylesheets%}<link rel="stylesheet" href="{{ asset('styles/transactions.css') }}">{% endblock %}
+
 
 {% block main %}
     <main>
-    <h1>Test de Virement</h1>
+    <h1>Effectuer un <span>virement</span></h1>
 
     {% for message in app.flashes('success') %}
         <div style="color: green; font-weight: bold;">{{ message }}</div>
