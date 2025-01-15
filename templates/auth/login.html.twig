@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('styles/logregister.css') }}">
+<link rel="stylesheet" href="{{ asset('styles/auth/login.css') }}">
 {% endblock %}
 
 {% block main %}
-	<main id="logregister">
+	<main id="login">
 		<form method="post">
 			{% if error %}
 				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
