@@ -18,19 +18,23 @@ class TransactionType extends AbstractType
             ->add('from_account_id', NumberType::class, [
                 'label' => 'Compte source',
                 'required' => true,
+                'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('to_account_id', NumberType::class, [
                 'label' => 'Compte destinataire',
                 'required' => true,
+                'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('amount', NumberType::class, [
                 'label' => 'Montant',
                 'required' => true,
                 'scale' => 2,
+                'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('label', TextType::class, [
                 'label' => 'Libellé',
                 'required' => false,
+                'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type de transaction',
@@ -40,9 +44,11 @@ class TransactionType extends AbstractType
                     'Retrait' => 'retrait',
                 ],
                 'required' => true,
+                'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Effectuer le virement',
+                'attr' => ['class' => 'btn btn-primary'],
             ]);
     }
 
