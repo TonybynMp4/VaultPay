@@ -26,6 +26,9 @@ class Transaction
     #[ORM\Column]
     private ?bool $Cancel = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Label = null;
+
     #[ORM\ManyToOne(inversedBy: 'outgoingTransactions')]
     private ?BankAccount $FromAccount = null;
 
@@ -105,6 +108,18 @@ class Transaction
     public function setToAccount(?BankAccount $ToAccount): static
     {
         $this->ToAccount = $ToAccount;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->Label;
+    }
+
+    public function setLabel(?string $Label): static
+    {
+        $this->Label = $Label;
 
         return $this;
     }
