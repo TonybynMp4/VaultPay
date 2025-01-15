@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BankAccount;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +31,16 @@ class RegistrationController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);
+
+            // create main bank account
+            $bankAccount = new BankAccount();
+            $bankAccount->setUserId($user);
+            $bankAccount->setSolde(0);
+            $bankAccount->setClose(false);
+
+            $entityManager->persist($bankAccount);
             $entityManager->flush();
+
 
             // do anything else you need here, like send an email
 

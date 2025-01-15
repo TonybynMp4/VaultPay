@@ -12,21 +12,28 @@
     <div class="main-columns">
       <div class="main-column solde">
         <div class="montant-solde">
-        <p class="chiffre">+{{soldePrincipal}}€</p>
+        <p class="chiffre">{{bankAccount.getSolde()|number_format(2, '.', ' ')}}€</p>
         <p class="txt">Solde disponible</p>
         </div>
 
         <div class="historique">
                 <p class="txt">Historique :</p>
                 <ul class="operations">
-                    {% for paiement in paiements %}
+                    {% if transactions is empty %}
                         <li class="operation">
                             <div class="operation-details">
-                                <strong>{{ paiement.nom }}</strong> - 
-                                {{ paiement.montant|number_format(2, ',', ' ') }}€
+                                <strong>Aucune transaction</strong>
+                            </div>
+                        </li>
+                    {% endif %}
+                    {% for transaction in transactions %}
+                        <li class="operation">
+                            <div class="operation-details">
+                                <strong>{{ transaction.label }}</strong> -
+                                {{ transaction.amount|number_format(2, '.', ' ') }}€
                             </div>
                             <div class="operation-date">
-                                {{ paiement.date }}
+                                {{ transaction.date|date('d/m/Y H:i') }}
                             </div>
                         </li>
                         {% if not loop.last %}
@@ -55,7 +62,7 @@
         <div class="tab-pane active" id="comptes">
             <p>Contenu pour "Mes Comptes".</p>
         </div>
-        <div class="tab-pane" id="cartes"> 
+        <div class="tab-pane" id="cartes">
     <aside class="card-front">
         <label class="number" for="cardNumber">
         5355 1234 0000 9999
@@ -67,8 +74,8 @@
         03/27
         </label>
         <img class="cardLogo" data-v-5d206127="" data-v-8fcb32d4="" style="opacity: 1;" src="https://simey-credit-card.netlify.app/img/logos/master.svg">
-        
-        
+
+
         <div class="chip">
         <svg role="img" viewBox="0 0 100 100" aria-label="Chip">
             <use href="#chip-lines" />
@@ -77,7 +84,7 @@
         <svg class="contactless" role="img" viewBox="0 0 24 24" aria-label="Contactless">
         <use href="#contactless">
         </svg>
-        
+
     </aside>
 
     <svg id="chip">
