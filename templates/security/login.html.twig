@@ -3,8 +3,12 @@
 {% block title %}Log in!
 {% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles/logregister.css') }}">
+{% endblock %}
+
 {% block main %}
-	<main>
+	<main id="logregister">
 		<form method="post">
 			{% if error %}
 				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

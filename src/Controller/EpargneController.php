@@ -9,7 +9,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class EpargneController extends AbstractController
 {
-    #[Route('/epargne', name: 'app_epargne')]
+   /*  #[IsGranted('ROLE_USER')]
+    */ #[Route('/epargne', name: 'app_epargne')]
     public function index(): Response
     {
         return $this->render('epargne/index.html.twig', [

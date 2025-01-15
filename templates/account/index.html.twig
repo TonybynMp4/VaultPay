@@ -6,19 +6,35 @@
 <link rel="stylesheet" href="{{ asset('styles/account.css') }}">
 {% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
+<main id="account">
+    <div class="account-container">
+        <!-- Section Avatar et Informations -->
+        <div class="profile-section">
+            <div class="avatar">
+                <img src="{{ asset('images/avatar.jpg') }}" alt="Avatar" class="avatar-img">
+            </div>
+            <div class="info">
+                <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+                <p>Âge : {{ user.age }} ans</p>
+            </div>
+        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/journ/OneDrive/Bureau/EFREI/Challenge Web 2/VaultPay/src/Controller/AccountController.php</code></li>
-        <li>Your template at <code>C:/Users/journ/OneDrive/Bureau/EFREI/Challenge Web 2/VaultPay/templates/account/index.html.twig</code></li>
-    </ul>
-</div>
+        <!-- Section Options du compte -->
+        <div class="options-grid">
+            <div class="option">
+                <button class="option-btn">Modifier le profil</button>
+            </div>
+            <div class="option">
+                <button class="option-btn">Historique des transactions</button>
+            </div>
+            <div class="option">
+                <button class="option-btn">Paramètres de sécurité</button>
+            </div>
+            <div class="option">
+                <button class="option-btn">Déconnexion</button>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
