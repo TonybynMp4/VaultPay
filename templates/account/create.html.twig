@@ -3,16 +3,22 @@
 {% block title %}VaultPay | Créer un compte bancaire{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('styles/account/createForm.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/common/genericForm.css') }}">
 {% endblock %}
 
 {% block main %}
     <main>
-        <h1>Créer un nouveau compte</h1>
-
         {{ form_start(form) }}
+            <h1>Créer un nouveau compte</h1>
+            {{ form_errors(form) }}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
             {{ form_row(form.name) }}
             {{ form_row(form.balance) }}
+            {{ form_row(form.type) }}
             <button type="submit" class="btn btn-primary">Créer</button>
         {{ form_end(form) }}
     </main>
