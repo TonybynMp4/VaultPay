@@ -47,8 +47,12 @@ final class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($user->getBankAccounts()->count() >= 5) {
+                $this->addFlash('error', 'Vous ne pouvez pas créer plus de 5 comptes bancaires.');
+                return $this->redirectToRoute('app_account_create');
+            }
+
             if ($bankAccount->getType() === 1 && $bankAccount->getBalance() < 10) {
-                // Le message s'affiche pas....
                 $this->addFlash('error', 'Le montant initial pour une compte épargne doit être d\'au moins 10€.');
                 return $this->redirectToRoute('app_account_create');
             }
