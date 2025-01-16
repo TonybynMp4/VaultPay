@@ -1,0 +1,24 @@
+{# templates/admin/_user_transactions.html.twig #}
+{% if transactions is empty %}
+    <p>Aucune transaction trouvée pour cet utilisateur.</p>
+{% else %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Montant</th>
+                <th>Date</th>
+                <th>Destinataire</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

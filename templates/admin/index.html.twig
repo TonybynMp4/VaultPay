@@ -1,15 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Liste des Utilisateurs{% endblock %}
 
 {% block main %}
 <div class="user-list">
-    <h2>List of Users</h2>
+    <h2>Liste des Utilisateurs</h2>
     <ul>
         {% for user in users %}
-            <li>{{ user.firstname }} - {{ user.email }}</li>
+            <li><a href="#" class="user-link" data-user-id="{{ user.id }}">{{ user.firstname }} - {{ user.email }}</a></li>
         {% endfor %}
     </ul>
 </div>
 
+<div class="user-transactions">
+    <h2>Transactions de l'Utilisateur</h2>
+    <div id="transaction-history">
+        <!-- Les transactions seront chargées ici -->
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const userLinks = document.querySelectorAll('.user-link');
+
+        userLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const userId = this.getAttribute('data-user-id');
+
+                fetch(`/admin/user/${userId}/transactions`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('transaction-history').innerHTML = html;
+                    })
+                    .catch(error => console.error('Erreur lors de la récupération des transactions :', error));
+            });
+        });
+    });
+</script>
 {% endblock %}
