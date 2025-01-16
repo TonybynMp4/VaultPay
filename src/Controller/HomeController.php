@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\TransactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController {
     #[Route('/', name: 'app_home')]
@@ -12,6 +13,7 @@ class HomeController extends AbstractController {
         return $this->render('home/index.html.twig');
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/dashboard', name: 'app_dashboard')]
     public function dashboard(TransactionRepository $transactionRepository): \Symfony\Component\HttpFoundation\Response {
         $user = $this->getUser();
@@ -22,7 +24,7 @@ class HomeController extends AbstractController {
 
         // l'erreur n'est qu'une illusion
         $bankAccount = $user->getBankAccounts()->first();
-        // use repository to get transactions
+
         $transactions = $transactionRepository
             ->findLastTransactionsByAccount($bankAccount->getId(), 5);
 
