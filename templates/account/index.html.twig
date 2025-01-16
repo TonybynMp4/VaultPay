@@ -18,32 +18,28 @@
 					<h2>Vos informations personnelles</h2>
 				</div>
 				<div class="account-container">
-				<!-- Section Avatar et Informations -->
-				<div class="profile-section">
-					<div class="avatar">
-						<img src="{{ asset('images/avatar.png') }}" alt="Avatar" class="avatar-img">
+					<div class="profile-section">
+						<div class="avatar">
+							<img src="{{ asset('images/avatar.png') }}" alt="Avatar" class="avatar-img">
+						</div>
+						<div class="info">
+							<h2>
+                            {{ user.firstName }} {{ user.lastName }}
+                            </h2>
+						</div>
 					</div>
-					<div class="info">
-						<h2>{{ user.firstName }}
-							{{ user.lastName }}</h2>
-					</div>
-				</div>
 
-				<!-- Section Options du compte -->
-				<div class="options-grid">
-					<div class="option">
-						<button class="option-btn">Modifier le profil</button>
+					<!-- Section Informations -->
+					<div class="profile-section">
+						<div class="info">
+							<h3>Email</h3>
+							<p>{{ user.email ? user.email : 'Non renseigné' }}</p>
+						</div>
+						<div class="info">
+							<h3>Téléphone</h3>
+							<p>{{ user.phone ? user.phone : 'Non renseigné' }}</p>
+						</div>
 					</div>
-					<div class="option">
-						<a href="{{ path('transaction_history') }}" class="option-btn">Historique des transactions</a>
-					</div>
-					<div class="option">
-						<button class="option-btn">Paramètres de sécurité</button>
-					</div>
-					<div class="option">
-						<button class="option-btn">Déconnexion</button>
-					</div>
-				</div>
 				</div>
 			</div>
 			<div class="rightPart">
