@@ -17,7 +17,13 @@
                     <td>{{ transaction.id }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
-                </tr>
+                    <td>
+                        {{ transaction.toAccount 
+                            ? transaction.toAccount.getUserId().getFirstname ~ ' ' ~ transaction.toAccount.getUserId().getLastname 
+                            : 'Non défini' 
+                        }}
+                    </td>               
+                 </tr>
             {% endfor %}
         </tbody>
     </table>
