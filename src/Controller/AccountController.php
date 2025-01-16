@@ -80,11 +80,6 @@ final class AccountController extends AbstractController
             throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer ce compte.');
         }
 
-        // Vérifie le token CSRF
-        if (!$this->isCsrfTokenValid('delete' . $bankAccount->getId(), $request->request->get('_token'))) {
-            throw $this->createAccessDeniedException('Token CSRF invalide.');
-        }
-
         // Supprime le compte
         $entityManager->remove($bankAccount);
         $entityManager->flush();
