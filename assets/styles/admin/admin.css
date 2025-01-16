@@ -1,0 +1,82 @@
+#admin {
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+  justify-content: center;
+  display: flex;
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.user-list,
+.user-transactions {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+/* Titres */
+.user-list h2,
+.user-transactions h2 {
+  text-align: center;
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Liste des utilisateurs */
+.user-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.user-list li {
+  background: #ffffff;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 5px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Effet au survol */
+.user-list li:hover {
+  background: #e3f2fd;
+  transform: scale(1.03);
+}
+
+/* Liens des utilisateurs */
+.user-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.user-link:hover {
+  color: #0056b3;
+}
+
+/* Section des transactions */
+.user-transactions {
+  min-height: 200px;
+}
+
+#transaction-history {
+  margin-top: 10px;
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 5px;
+  min-height: 150px;
+  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+.adminPanel {
+  height: 75vh;
+  display: flex;
+}
