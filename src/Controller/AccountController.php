@@ -79,7 +79,7 @@ final class AccountController extends AbstractController
     }
 
     #[Route('/account/delete/{id}', name: 'app_account_delete', methods: ['POST'])]
-    public function deleteBankAccount(int $id, Request $request, EntityManagerInterface $entityManager): Response
+    public function deleteBankAccount(int $id, EntityManagerInterface $entityManager): Response
     {
         // Récupère le compte à supprimer
         $bankAccount = $entityManager->getRepository(BankAccount::class)->find($id);
@@ -87,6 +87,11 @@ final class AccountController extends AbstractController
         // Vérifie que le compte existe et appartient à l'utilisateur connecté
         if (!$bankAccount || $bankAccount->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer ce compte.');
+        }
+
+        if ($bankAccount->getType() === 0) {
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer votre compte principal.');
+            return $this->redirectToRoute('app_account');
         }
 
         // Supprime le compte

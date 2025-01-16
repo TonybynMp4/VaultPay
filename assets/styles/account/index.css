@@ -220,6 +220,15 @@ main#account h2.title {
     cursor: pointer;
 }
 
+.delete-btn:hover {
+    color: red;
+}
+
+.delete-btn[disabled] {
+    color: lightgray;
+    cursor: not-allowed;
+}
+
 .account-info-container {
     display: flex;
     align-items: center;
