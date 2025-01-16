@@ -45,10 +45,9 @@ class SecurityController extends AbstractController
             $entityManager->persist($bankAccount);
             $entityManager->flush();
 
-
-            // do anything else you need here, like send an email
-
-            return $security->login($user, 'form_login', 'main');
+            return $this->redirectToRoute('app_login');
+            // Bugué en Symfony 7.2
+            // return $security->login($user, 'form_login', 'main');
         }
 
         return $this->render('auth/register.html.twig', [
@@ -60,7 +59,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute("home");
+            return $this->redirectToRoute("app_dashboard");
         }
 
         // get the login error if there is one
