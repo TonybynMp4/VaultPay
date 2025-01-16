@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Transaction;
 use App\Form\DepositFormType;
+use App\Repository\TransactionRepository;
 
 class TransactionController extends AbstractController
 {
@@ -207,5 +208,27 @@ class TransactionController extends AbstractController
         return $this->render('transaction/withdraw.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+    #[Route('/transaction/history', name: 'transaction_history')]
+    public function showHistory(
+        TransactionRepository $transactionRepository
+    ): Response {
+        $user = $this->getUser();
+        $accounts = $user->getBankAccounts();
+        $transactions = [];
+        
+        foreach ($accounts as $account) {
+            $accountTransactions = $transactionRepository->findLastTransactionsByAccount($account->getId(), 100);
+            $transactions = array_merge($transactions, $accountTransactions);
+        }
+        
+        usort($transactions, function ($a, $b) {
+            return $b->getDate() <=> $a->getDate();
+        });
+        
+        return $this->render('transaction/history.html.twig', [
+            'transactions' => $transactions,
+        ]);
+
     }
 }

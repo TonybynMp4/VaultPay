@@ -16,6 +16,45 @@
             {% endfor %}
         </ul>
     </div>
+    <div class="user-actions">
+        <h2>Actions de l'Utilisateur</h2>
+        <button id="block-user" class="block-user" data-user-id="">Bloquer l'utilisateur</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const blockUserButton = document.getElementById('block-user');
+
+            document.querySelectorAll('.user-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    const userId = this.getAttribute('data-user-id');
+                    blockUserButton.setAttribute('data-user-id', userId);
+                });
+            });
+
+            blockUserButton.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user-id');
+
+                fetch(`/admin/user/${userId}/block`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': '{{ csrf_token('block_user') }}'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Utilisateur bloqué avec succès');
+                            // Optionally, refresh the user list or perform other actions
+                        } else {
+                            alert('Erreur lors du blocage de l\'utilisateur');
+                        }
+                    })
+                    .catch(error => console.error('Erreur lors du blocage de l\'utilisateur :', error));
+            });
+        });
+    </script>
 
     <div class="user-transactions">
         <h2>Transactions de l'Utilisateur</h2>

@@ -8,12 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UsersRepository;
 use App\Repository\BankAccountRepository;
 use App\Repository\TransactionRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class AdminController extends AbstractController
 {
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'app_admin')]
     public function index(UsersRepository $usersRepository): Response
     {
@@ -58,7 +57,24 @@ final class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/user/{id}/block', name: 'admin_user_block')]
+    public function blockUser(int $id, UsersRepository $usersRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $usersRepository->find($id);
 
+        if (!$user) {
+            $this->addFlash('error', 'Utilisateur introuvable.');
+            return $this->redirectToRoute('app_admin');
+        }
+
+        $user->setBlocked(1);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Utilisateur bloqué avec succès.');
+
+        return $this->redirectToRoute('app_admin');
+    }
 
     #[Route('/admin/transaction/{id}/cancel', name: 'admin_transaction_cancel')]
 public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
