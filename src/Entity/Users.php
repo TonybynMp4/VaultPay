@@ -41,9 +41,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photo = null;
-
     /**
      * @var Collection<int, BankAccount>
      */
@@ -52,6 +49,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $blocked = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
 
     public function __construct()
     {
@@ -156,18 +156,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(?string $photo): static
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, BankAccount>
      */
@@ -206,6 +194,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBlocked(bool $blocked): static
     {
         $this->blocked = $blocked;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }
