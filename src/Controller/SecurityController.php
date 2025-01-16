@@ -29,6 +29,14 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Validate phone number
+            $phone = $form->get('phone')->getData();
+            if (!preg_match('/^\d{10}$/', $phone)) {
+                $this->addFlash('error', 'Le numéro de téléphone doit contenir exactement 10 chiffres.');
+                return $this->redirectToRoute('app_register');
+            }
+            $user->setPhone($phone);
+
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 

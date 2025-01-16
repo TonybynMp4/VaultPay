@@ -1,14 +1,14 @@
 main {
     min-height: 70vh;
     width: 50%;
-    margin: 10vh auto;
+    margin-inline: auto;
 }
 
 form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 form div {
@@ -18,11 +18,7 @@ form div {
     gap: 1rem;
 }
 
-form div {
-    display: flex;
-    justify-content: space-between;
-}
-
 form div input, form div select {
     padding: 0 0.5rem;
+    min-width: 50%;
 }

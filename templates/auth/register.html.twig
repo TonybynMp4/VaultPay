@@ -14,12 +14,11 @@
 		{{ form_start(registrationForm) }}
 		<h1 class="h3 mb-3 font-weight-normal">Register Account</h1>
         {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.phone) }}
 		{{ form_row(registrationForm.firstname) }}
 		{{ form_row(registrationForm.lastname) }}
 
-		{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+		{{ form_row(registrationForm.plainPassword) }}
 
 		<button class="btn btn-lg btn-primary" type="submit">Register</button>
 		{{ form_end(registrationForm) }}
