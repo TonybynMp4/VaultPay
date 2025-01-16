@@ -19,8 +19,8 @@ class BankAccount
     #[ORM\Column]
     private ?float $balance = null;
 
-    #[ORM\Column]
-    private ?bool $Close = null;
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $Close = 0;
 
     #[ORM\ManyToOne(inversedBy: 'bankAccounts')]
     #[ORM\JoinColumn(nullable: false)]
