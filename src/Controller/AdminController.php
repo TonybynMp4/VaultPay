@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UsersRepository;
 use App\Repository\BankAccountRepository;
 use App\Repository\TransactionRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class AdminController extends AbstractController
 {
@@ -54,4 +56,26 @@ final class AdminController extends AbstractController
             'transactions' => $transactions,
         ]);
     }
+
+    
+
+    #[Route('/admin/transaction/{id}/cancel', name: 'admin_transaction_cancel')]
+public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
+{
+    $transaction = $transactionRepository->find($id);
+
+    if (!$transaction) {
+        $this->addFlash('error', 'Transaction introuvable.');
+        return $this->redirectToRoute('app_admin');
+    }
+
+    $transaction->setCancel(1);
+    $entityManager->persist($transaction);
+    $entityManager->flush();
+
+    $this->addFlash('success', 'Compte cancel avec succès.');
+
+    return $this->redirectToRoute('app_admin');
+
+}
 }
