@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Transaction;
 use App\Repository\TransactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;

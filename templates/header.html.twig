@@ -1,44 +1,42 @@
 <header>
-<div class="navigation-wrap bg-light start-header start-style">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<nav class="navbar navbar-expand-md navbar-light">
-
-						<a class="navbar-brand" href="/"><img src="{{ asset('images/VaultpayLogo.png') }}"/>VAULTPAY</a>
-
-						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-							<span class="navbar-toggler-icon"></span>
-						</button>
-
-						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav ml-auto py-4 py-md-0">
-								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-									<a class="nav-link" href="/">Accueil</a>
-								</li>
-								{% if not app.user %}
-									<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-										<a class="nav-link" href="{{ path('app_login') }}">login</a>
-									</li>
-									<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-										<a class="nav-link" href="{{ path('app_register') }}">register</a>
-									</li>
-								{% endif %}
-								{% if app.user %}
-                                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                        <a class="nav-link" href="{{ path('app_account') }}">Comptes</a>
-                                    </li>
-									<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-										<a class="nav-link" href="{{ path('app_logout') }}">logout</a>
-									</li>
-								  {% endif %}
-							</ul>
-						</div>
-
-					</nav>
-				</div>
-			</div>
+	<a href="/">
+		<img src="{{ asset('images/VaultpayLogo.png') }}" alt="Vaultpay Logo">
+		VAULTPAY
+	</a>
+	<div>
+		<div id="nav_open">
+			<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
 		</div>
+		<nav>
+			<a class="nav-link" href="/">Accueil</a>
+			{% if not app.user %}
+				<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+				<a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+			{% endif %}
+			{% if app.user %}
+				<a class="nav-link" href="{{ path('app_dashboard') }}">Tableau de bord</a>
+				<a class="nav-link" href="{{ path('app_account') }}">Comptes</a>
+				<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+			{% endif %}
+		</nav>
 	</div>
 </header>
-
+<aside id="aside_nav">
+	<div style="display: flex; margin-bottom:2em; gap:1em; align-items: center; justify-content: space-between;">
+		<div id="opened_nav_account">
+		</div>
+		<svg id="nav_close" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+	</div>
+	<nav>
+		<a class="nav-link" href="/">Accueil</a>
+		{% if not app.user %}
+			<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+			<a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+		{% endif %}
+		{% if app.user %}
+			<a class="nav-link" href="{{ path('app_dashboard') }}">Tableau de bord</a>
+			<a class="nav-link" href="{{ path('app_account') }}">Comptes</a>
+			<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+		{% endif %}
+	</nav>
+</aside>

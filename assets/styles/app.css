@@ -1,3 +1,23 @@
+:root {
+    --background: #fff;
+    --background-secondary: #222831;
+    --background-tertiary: #393E46;
+    --text: #000;
+    --secondary-text: #EEEEEE;
+    --tertiary-text: #b9b9b9;
+    --primary-action: #0866ff;
+    --secondary-action: hsl(240 3.7% 15.9%);
+    --link: #0866ff;
+}
+
 body {
-  background-color: #f0f0f0;
+    background-color: var(--background);
+    color: var(--text);
+    font-family: "Google Sans", roboto, arial, helvetica;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    min-height: calc(74.75vh);
 }

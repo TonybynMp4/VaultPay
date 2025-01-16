@@ -6,12 +6,13 @@
 			{% block title %}VaultPay!{% endblock %}
 		</title>
 		{% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 		<link rel="stylesheet" href="{{ asset('styles/header.css') }}">
 		<link rel="stylesheet" href="{{ asset('styles/footer.css') }}">
 
 		<link rel="icon" href="{{ asset('images/VaultpayLogo.png') }}">
+        <script src="{{ asset('js/header.js') }}" defer></script>
 		{% block javascripts %}
-			<script src="{{ asset('js/home.js') }}"></script>
 		{% endblock %}
 	</head>
 	<body>
