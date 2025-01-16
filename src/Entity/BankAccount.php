@@ -41,7 +41,7 @@ class BankAccount
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    // 0: Courant, 1: Epargne
+    // 0: Principal, 1: Courant, 2: Epargne,
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $type = 0;
 
@@ -51,7 +51,7 @@ class BankAccount
         $this->IncomingTransactions = new ArrayCollection();
     }
 
-    
+
 
     public function getId(): ?int
     {
