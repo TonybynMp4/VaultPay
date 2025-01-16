@@ -15,14 +15,14 @@
         <tbody>
             {% for transaction in transactions %}
                 <tr>
-                    <td>{{ transaction.fromAccount ? transaction.fromAccount.getUserId().getFirstname ~ ' ' ~ transaction.fromAccount.getUserId().getLastname 
+                    <td>{{ transaction.fromAccount ? transaction.fromAccount.getUser().getFirstname ~ ' ' ~ transaction.fromAccount.getUser().getLastname
                             : 'Non défini'  }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
                     <td>
-                        {{ transaction.toAccount 
-                            ? transaction.toAccount.getUserId().getFirstname ~ ' ' ~ transaction.toAccount.getUserId().getLastname 
-                            : 'Non défini' 
+                        {{ transaction.toAccount
+                            ? transaction.toAccount.getUser().getFirstname ~ ' ' ~ transaction.toAccount.getUser().getLastname
+                            : 'Non défini'
                         }}
                     </td>
                     <td>

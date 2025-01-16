@@ -63,7 +63,7 @@ final class AccountController extends AbstractController
             }
 
             // Associe l'utilisateur connecté au compte bancaire
-            $bankAccount->setUserId($user);
+            $bankAccount->setUser($user);
 
             // Enregistre le compte dans la base de données
             $entityManager->persist($bankAccount);
@@ -85,7 +85,7 @@ final class AccountController extends AbstractController
         $bankAccount = $entityManager->getRepository(BankAccount::class)->find($id);
 
         // Vérifie que le compte existe et appartient à l'utilisateur connecté
-        if (!$bankAccount || $bankAccount->getUserId() !== $this->getUser()) {
+        if (!$bankAccount || $bankAccount->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer ce compte.');
         }
 

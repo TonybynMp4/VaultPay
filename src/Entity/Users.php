@@ -178,8 +178,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->bankAccounts->removeElement($bankAccount)) {
             // set the owning side to null (unless already changed)
-            if ($bankAccount->getUserId() === $this) {
-                $bankAccount->setUserId(null);
+            if ($bankAccount->getUser() === $this) {
+                $bankAccount->setUser(null);
             }
         }
 

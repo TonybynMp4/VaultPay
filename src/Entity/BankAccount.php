@@ -82,12 +82,12 @@ class BankAccount
         return $this;
     }
 
-    public function getUserId(): ?Users
+    public function getUser(): ?Users
     {
         return $this->Users;
     }
 
-    public function setUserId(?Users $UserId): static
+    public function setUser(?Users $UserId): static
     {
         $this->Users = $UserId;
 
