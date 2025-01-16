@@ -77,22 +77,41 @@ final class AdminController extends AbstractController
     }
 
     #[Route('/admin/transaction/{id}/cancel', name: 'admin_transaction_cancel')]
-public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
-{
-    $transaction = $transactionRepository->find($id);
+    public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
+    {
+        $transaction = $transactionRepository->find($id);
 
-    if (!$transaction) {
-        $this->addFlash('error', 'Transaction introuvable.');
+        if (!$transaction) {
+            $this->addFlash('error', 'Transaction introuvable.');
+            return $this->redirectToRoute('app_admin');
+        }
+
+        $fromAccount = $transaction->getFromAccount();
+        $toAccount = $transaction->getToAccount();
+        $amount = $transaction->getAmount();
+
+        if ($transaction->isCancel()) {
+            $this->addFlash('error', 'La transaction est déjà annulée.');
+            return $this->redirectToRoute('app_admin');
+        }
+
+        // Annuler la transaction
+        $transaction->setCancel(1);
+
+        // Mettre à jour les soldes des comptes
+        if ($fromAccount) {
+            $fromAccount->setBalance($fromAccount->getBalance() + $amount);
+        }
+
+        if ($toAccount) {
+            $toAccount->setBalance($toAccount->getBalance() - $amount);
+        }
+
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Transaction annulée avec succès.');
+
         return $this->redirectToRoute('app_admin');
     }
-
-    $transaction->setCancel(1);
-    $entityManager->persist($transaction);
-    $entityManager->flush();
-
-    $this->addFlash('success', 'Compte cancel avec succès.');
-
-    return $this->redirectToRoute('app_admin');
-
-}
 }
