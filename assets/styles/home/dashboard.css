@@ -206,6 +206,7 @@ h1 {
 }
 
 .tab-pane.active {
+  display: inline-flex !important;
     display: block;
 }
 
