@@ -50,6 +50,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: BankAccount::class, mappedBy: 'Users', orphanRemoval: true)]
     private Collection $bankAccounts;
 
+    #[ORM\Column]
+    private ?bool $blocked = false;
+
     public function __construct()
     {
         $this->bankAccounts = new ArrayCollection();
@@ -191,6 +194,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $bankAccount->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isBlocked(): ?bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): static
+    {
+        $this->blocked = $blocked;
 
         return $this;
     }
