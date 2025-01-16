@@ -1,9 +1,64 @@
 /* Style général pour la page */
 main#account {
-  margin-top: 6vh !important;
+  width: 100%;
+  margin-top: -2vh !important;
   min-height: 70vh; /* Utiliser min-height pour s'adapter au contenu */
   font-family: Arial, sans-serif;
   background-color: #f4f7fc;
+}
+main#account h1.title {
+  margin-left: 100px;
+  padding: 20px 0 0 0;
+  font-size: 2rem;
+}
+main#account h2.title {
+  margin-left: 100px;
+  margin-top: -20px;
+  padding: 0 0 20px 0;
+  font-size: 0.8rem;
+  font-weight: 200;
+  color: #636363;
+}
+.accountContent {
+  justify-content: space-evenly;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.leftPart,
+.rightPart {
+  border-radius: 20px;
+  height: 60vh;
+  background-color: #fff;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.rightPart {
+  width: 60%;
+}
+.leftPart {
+  width: 30%;
+}
+
+.titlePart {
+  height: 10vh;
+  background: linear-gradient(315deg, #6a11cb, #2545fc);
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+}
+.titlePart h1 {
+  font-size: 1.6rem;
+  padding: 10px;
+  margin: 0 0 0 10px;
+  color: #fff;
+}
+.titlePart h2 {
+  font-size: 0.7rem;
+  padding: 10px;
+  margin: -20px 0 0 10px;
+  color: #cacaca;
+  font-weight: 200;
 }
 
 /* Container principal */
@@ -28,9 +83,7 @@ main#account {
 }
 
 .avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  width: 60%;
   object-fit: cover;
 }
 
@@ -84,10 +137,8 @@ main#account {
 
 /* Section Liste des Comptes */
 .accounts-list {
-  margin-top: 40px;
   background-color: #ffffff;
   padding: 20px;
-  border: 1px solid #ddd;
   border-radius: 5px;
   max-height: 300px; /* Limite la hauteur maximale */
   overflow-y: auto; /* Permet le défilement vertical */
@@ -109,8 +160,7 @@ main#account {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color: #ececec96;
   border-radius: 5px;
   margin-bottom: 10px;
   transition: background-color 0.3s;
