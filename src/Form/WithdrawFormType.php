@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\BankAccount;
+use App\Entity\Transaction;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -12,10 +13,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TransferFormType extends AbstractType
+class WithdrawFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        if (!isset($options['user'])) {
+            throw new \InvalidArgumentException('The "user" option is mandatory');
+        }
+
         $builder
             ->add('fromAccount', EntityType::class, [
                 'label' => 'Compte',
@@ -26,11 +31,6 @@ class TransferFormType extends AbstractType
                         ->setParameter('user', $options['user']);
                 },
                 'choice_label' => 'Name',
-                'attr' => ['class' => 'form-control input-field'],
-            ])
-            ->add('to_account_id', NumberType::class, [
-                'label' => 'Compte destinataire',
-                'required' => true,
                 'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('amount', NumberType::class, [
@@ -45,14 +45,16 @@ class TransferFormType extends AbstractType
                 'attr' => ['class' => 'form-control input-field'],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Effectuer le virement',
+                'label' => 'Effectuer le retrait',
                 'attr' => ['class' => 'btn btn-primary'],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class' => Transaction::class,
             'user' => null,
         ]);
     }

@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\BankAccount;
 use App\Entity\Transaction;
-use App\Entity\Users;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -23,7 +22,7 @@ class DepositFormType extends AbstractType
         }
 
         $builder
-            ->add('ToAccount', EntityType::class, [
+            ->add('toAccount', EntityType::class, [
                 'label' => 'Compte',
                 'class' => BankAccount::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
@@ -34,13 +33,13 @@ class DepositFormType extends AbstractType
                 'choice_label' => 'Name',
                 'attr' => ['class' => 'form-control input-field'],
             ])
-            ->add('Amount', NumberType::class, [
+            ->add('amount', NumberType::class, [
                 'label' => 'Montant',
                 'required' => true,
                 'scale' => 2,
                 'attr' => ['class' => 'form-control input-field'],
             ])
-            ->add('Label', TextType::class, [
+            ->add('label', TextType::class, [
                 'label' => 'Libellé',
                 'required' => false,
                 'attr' => ['class' => 'form-control input-field'],

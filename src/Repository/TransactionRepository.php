@@ -49,7 +49,7 @@ class TransactionRepository extends ServiceEntityRepository
             $error = "Le compte destination est introuvable";
         }
 
-        if ($transaction->getFromAccount()->isClose() || $transaction->getToAccount()->isClose()) {
+        if (($transaction->getFromAccount() && $transaction->getFromAccount()->isClose()) || ($transaction->getToAccount() && $transaction->getToAccount()->isClose())) {
             $error = "Un des comptes est fermé";
         }
 
@@ -84,10 +84,10 @@ class TransactionRepository extends ServiceEntityRepository
                     $label = 'Virement du compte ' . $transaction->getFromAccount()->getId() . ' au compte ' . $transaction->getToAccount()->getId();
                     break;
                 case 1:
-                    $label = 'Débit du compte ' . $transaction->getFromAccount()->getId();
+                    $label = 'Retrait du compte ' . $transaction->getFromAccount()->getId();
                     break;
                 case 2:
-                    $label = 'Crédit du compte ' . $transaction->getToAccount()->getId();
+                    $label = 'Dépot sur le compte ' . $transaction->getToAccount()->getId();
                     break;
                 default:
                     throw new \Exception("Type de transaction inconnu");
