@@ -19,6 +19,10 @@ class SecurityController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute("app_dashboard");
+        }
+
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -40,14 +44,15 @@ class SecurityController extends AbstractController
             $bankAccount->setUserId($user);
             $bankAccount->setBalance(80); // 80€ initialement
             $bankAccount->setClose(false);
+            $bankAccount->setType(0); // 0: Principal
             $bankAccount->setName('Compte principal');
 
             $entityManager->persist($bankAccount);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_login');
-            // Bugué en Symfony 7.2
+            // le login automatique est Bugué en Symfony 7.2
             // return $security->login($user, 'form_login', 'main');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('auth/register.html.twig', [
