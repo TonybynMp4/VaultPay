@@ -93,7 +93,7 @@ class TransactionController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Transaction effectuée avec succès.');
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_dashboard');
         }
 
         return $this->render('transaction/transfer.html.twig', [
