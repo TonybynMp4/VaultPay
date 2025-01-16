@@ -51,8 +51,6 @@ class BankAccount
         $this->IncomingTransactions = new ArrayCollection();
     }
 
-
-
     public function getId(): ?int
     {
         return $this->id;

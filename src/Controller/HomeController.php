@@ -22,14 +22,12 @@ class HomeController extends AbstractController {
             return $this->redirectToRoute('app_login');
         }
 
-        // l'erreur n'est qu'une illusion
-        $bankAccount = $user->getBankAccounts()->first();
-
-        $transactions = $transactionRepository
-            ->findLastTransactionsByAccount($bankAccount->getId(), 5);
+        $transactions = $transactionRepository->findLastTransactionsByUser($user, 10);
+        $totalBalance = $transactionRepository->getTotalBalance($user);
 
         $data = [
-            'bankAccount' => $bankAccount,
+            'user' => $user,
+            'totalBalance' => $totalBalance,
             'transactions' => $transactions,
         ];
 
