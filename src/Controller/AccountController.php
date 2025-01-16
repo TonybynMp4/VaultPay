@@ -47,12 +47,14 @@ final class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($bankAccount->getType() === 1 && $bankAccount->getBalance() < 10) {
+                // Le message s'affiche pas....
+                $this->addFlash('error', 'Le montant initial pour une compte épargne doit être d\'au moins 10€.');
+                return $this->redirectToRoute('app_account_create');
+            }
+
             // Associe l'utilisateur connecté au compte bancaire
             $bankAccount->setUserId($user);
-
-            // Définit les valeurs par défaut
-            $bankAccount->setBalance($bankAccount->getBalance() ?? 0.0); // Définit à 0 si non fourni
-            $bankAccount->setClose(false);
 
             // Enregistre le compte dans la base de données
             $entityManager->persist($bankAccount);
