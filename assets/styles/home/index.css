@@ -1,10 +1,9 @@
 #accueil {
     display: flex;
     align-items: center;
-    height: 79.6vh;
     background: linear-gradient(315deg, #6a11cb, #2545fc);
-    margin-top: -2vh;
-    margin-bottom: -2vh;
+    padding-block: 2vh;
+    margin-block: -2vh;
 }
 
 #accueil .content {

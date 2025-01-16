@@ -48,6 +48,7 @@ main#account h2.title {
     background: linear-gradient(315deg, #6a11cb, #2545fc);
     width: 100%;
     border-radius: 20px 20px 0 0;
+    align-content: center;
 }
 
 .titlePart h1 {
@@ -210,4 +211,34 @@ main#account h2.title {
 
 .add-account-btn:hover {
     background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: 0;
+    color: lightslategray;
+    border: none;
+    cursor: pointer;
+}
+
+.account-info-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.account-info-container,
+.account-solde,
+.account-actions {
+    flex: 1;
+}
+
+.account-actions {
+    text-align: right;
 }
