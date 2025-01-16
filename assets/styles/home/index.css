@@ -1,0 +1,90 @@
+#accueil {
+  display: flex;
+  align-items: center;
+  height: 79.6vh;
+  background: linear-gradient(315deg, #6a11cb, #2545fc);
+  margin-top: -2vh;
+  margin-bottom: -2vh;
+}
+#accueil .content {
+  height: 40vh;
+  display: grid;
+  align-items: center;
+}
+#accueil h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: bold;
+  padding: 0px 100px;
+  color: #fff;
+}
+#accueil h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 200;
+  padding: 0px 100px;
+  color: #fff;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Style du bouton de connexion */
+.btn-login {
+  background-color: #fff;
+  color: #2545fc;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.btn-login i {
+  font-size: 1.2rem;
+}
+
+.btn-login:hover {
+  background-color: #2545fc;
+  color: #fff;
+}
+
+/* Style du bouton d'inscription */
+.btn-signup {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.btn-signup i {
+  font-size: 1.2rem;
+}
+
+.btn-signup:hover {
+  background-color: #fff;
+  color: #2545fc;
+}
+
+/* Icones (si Font Awesome est déjà chargé) */
+.fa {
+  font-size: 1.2rem;
+}

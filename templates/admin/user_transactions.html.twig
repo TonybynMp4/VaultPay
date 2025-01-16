@@ -1,20 +1,22 @@
-{# templates/admin/_user_transactions.html.twig #}
+{# templates/admin/user_transactions.html.twig #}
 {% if transactions is empty %}
     <p>Aucune transaction trouvée pour cet utilisateur.</p>
 {% else %}
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Emetteur</th>
                 <th>Montant</th>
                 <th>Date</th>
                 <th>Destinataire</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for transaction in transactions %}
                 <tr>
-                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.fromAccount ? transaction.fromAccount.getUserId().getFirstname ~ ' ' ~ transaction.fromAccount.getUserId().getLastname 
+                            : 'Non défini'  }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
                     <td>
@@ -22,8 +24,11 @@
                             ? transaction.toAccount.getUserId().getFirstname ~ ' ' ~ transaction.toAccount.getUserId().getLastname 
                             : 'Non défini' 
                         }}
-                    </td>               
-                 </tr>
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_transaction_cancel', {'id': transaction.id}) }}" class="cancel-transaction" data-transaction-id="{{ transaction.id }}">Annuler</a>
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

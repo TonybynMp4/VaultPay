@@ -38,6 +38,32 @@
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('transaction-history').innerHTML = html;
+
+                        // Add event listeners for cancel buttons
+                        const cancelButtons = document.querySelectorAll('.cancel-transaction');
+                        cancelButtons.forEach(button => {
+                            button.addEventListener('click', function () {
+                                const transactionId = this.getAttribute('data-transaction-id');
+
+                                fetch(`/admin/transaction/${transactionId}/cancel`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-Token': '{{ csrf_token('cancel_transaction') }}'
+                                    }
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            alert('Transaction annulée avec succès');
+                                            // Optionally, refresh the transaction list
+                                        } else {
+                                            alert('Erreur lors de l\'annulation de la transaction');
+                                        }
+                                    })
+                                    .catch(error => console.error('Erreur lors de l\'annulation de la transaction :', error));
+                            });
+                        });
                     })
                     .catch(error => console.error('Erreur lors de la récupération des transactions :', error));
             });
