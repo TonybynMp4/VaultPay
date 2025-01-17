@@ -5,18 +5,16 @@
 		<title>
 			{% block title %}VaultPay!{% endblock %}
 		</title>
-<<<<<<< Updated upstream
-		{% block stylesheets %}{% endblock %}
-=======
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Geist&display=swap" rel="stylesheet">
 
->>>>>>> Stashed changes
 		<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 		<link rel="stylesheet" href="{{ asset('styles/header.css') }}">
 		<link rel="stylesheet" href="{{ asset('styles/footer.css') }}">
+		{% block stylesheets %}{% endblock %}
+		
 		<link rel="icon" href="{{ asset('images/VaultpayLogo.png') }}">
         <script src="{{ asset('js/header.js') }}" defer></script>
 		{% block javascripts %}
