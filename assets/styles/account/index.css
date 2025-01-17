@@ -5,15 +5,15 @@ main#account {
     background-color: #f4f7fc;
 }
 
-main#account h1.title {
+.title {
     margin-left: 100px;
+    margin-bottom: 0.5rem;
     padding: 20px 0 0 0;
     font-size: 2rem;
 }
 
-main#account h2.title {
+.subtitle {
     margin-left: 100px;
-    margin-top: -20px;
     padding: 0 0 20px 0;
     font-size: 0.8rem;
     font-weight: 200;
@@ -30,7 +30,6 @@ main#account h2.title {
 .leftPart,
 .rightPart {
     border-radius: 20px;
-    height: 60vh;
     background-color: #fff;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -45,24 +44,25 @@ main#account h2.title {
 
 .titlePart {
     height: 10vh;
-    background: linear-gradient(315deg, #6a11cb, #2545fc);
+    background: white;
     width: 100%;
     border-radius: 20px 20px 0 0;
     align-content: center;
+    padding-block: 0.75rem;
 }
 
 .titlePart h1 {
     font-size: 1.6rem;
     padding: 10px;
     margin: 0 0 0 10px;
-    color: #fff;
+    color: var(--text);
 }
 
 .titlePart h2 {
     font-size: 1rem;
     padding: 10px;
     margin: -20px 0 0 10px;
-    color: #cacaca;
+    color: var(--tertiary-text);
     font-weight: 200;
 }
 
@@ -75,16 +75,26 @@ main#account h2.title {
 }
 
 /* Section Avatar et Informations */
-.profile-section {
+.profile-userName {
     display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.profile-userInfo {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin-bottom: 40px;
     justify-content: space-between;
 }
 
-.avatar {
-    width: 120px;
-    height: 120px;
+.avatar svg {
+    background-color: #0056b3;
+    border-radius: 50%;
+    color:white;
+    width: auto;
+    height: 3rem;
     margin-right: 20px;
 }
 
@@ -193,6 +203,7 @@ main#account h2.title {
 /* Bouton pour ajouter un compte */
 .add-account {
     margin-top: 20px;
+    padding: 20px;
     text-align: center;
 }
 

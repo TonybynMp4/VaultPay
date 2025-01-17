@@ -10,7 +10,7 @@
 {% block main %}
 	<main id="account">
 		<h1 class="title">Mon compte</h1>
-		<h2 class="title">Gérez votre profil et vos comptes.</h2>
+		<p class="subtitle">Gérez votre profil et vos comptes.</p>
 		<div class="accountContent">
 			<div class="leftPart">
 				<div class="titlePart">
@@ -18,9 +18,9 @@
 					<h2>Vos informations personnelles</h2>
 				</div>
 				<div class="account-container">
-					<div class="profile-section">
+					<div class="profile-userName">
 						<div class="avatar">
-							<img src="{{ asset('images/avatar.png') }}" alt="Avatar" class="avatar-img">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 						</div>
 						<div class="info">
 							<h2>
@@ -30,7 +30,7 @@
 					</div>
 
 					<!-- Section Informations -->
-					<div class="profile-section">
+					<div class="profile-userInfo">
 						<div class="info">
 							<h3>Email</h3>
 							<p>{{ user.email ? user.email : 'Non renseigné' }}</p>
