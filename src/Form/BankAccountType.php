@@ -22,8 +22,8 @@ class BankAccountType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'label' => 'Type de compte',
                 'choices' => [
-                    'Courant' => 0,
-                    'Epargne' => 1,
+                    'Courant' => 1,
+                    'Epargne' => 2,
                 ],
             ])
             ->add('balance', MoneyType::class, [
