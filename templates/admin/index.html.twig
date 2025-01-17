@@ -14,17 +14,21 @@
         <h2>Utilisateurs</h2>
         <ul class="user-list">
             {% for user in users %}
-                <li class="user-item" data-user-id="{{ user.id }}">
+                <li class="user-item {% if user.blocked == 1 %}closed{% endif %}" data-user-id="{{ user.id }}">
                     <div class="user-info">
-                        
                         <div>
                             <h3>{{ user.firstname }} {{ user.lastname }}</h3>
-                            <p>{{ user.email }}</p>
+                            <div>
+                                <p>{{ user.email }}</p>
+                                {% if user.blocked == 1 %}
+                                    <p class="user-status">Bloqué</p>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                    <button class="block-user-btn" data-user-id="{{ user.id }}">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-x"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9.5-5 5"/><path d="m9.5 9.5 5 5"/></svg>
-</button>
+                    <a class="destructive-btn" href="/admin/user/{{ user.id }}/block" onclick="return confirm('Êtes-vous sûr de vouloir bloquer cet utilisateur ?')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-x"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9.5-5 5"/><path d="m9.5 9.5 5 5"/></svg>
+                    </a>
 
                 </li>
             {% endfor %}
@@ -72,11 +76,30 @@
                             const accountItem = document.createElement('li');
                             accountItem.classList.add('account-item');
                             accountItem.setAttribute('data-account-id', account.id);
+                            if (account.closed == 1)
+                                accountItem.classList.add('closed');
 
                             accountItem.innerHTML = `
                                 <h3>${account.name}</h3>
-                                <p>${account.type === 1 ? 'Compte Courant' : 'Compte Épargne'}</p>
-                                <p class="account-balance">€ ${parseFloat(account.balance).toLocaleString('fr-FR')}</p>
+                                <div class="account-card">
+                                    <div class="account-info">
+                                        <p>${account.type === 1 ? 'Compte Courant' : 'Compte Épargne'}</p>
+                                        ${
+                                            account.closed == 1
+                                                ? '<p class="account-status closed">Fermé</p>'
+                                                : '<p class="account-status open">Ouvert</p>'
+                                        }
+                                        <p>IBAN: ${account.id}</p>
+                                        <p class="account-balance">€ ${parseFloat(account.balance).toLocaleString('fr-FR')}</p>
+                                    </div>
+                                    <div class="account-actions">
+                                        <a href="/admin/account/${account.id}/block" class="destructive-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-x"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9.5-5 5"/><path d="m9.5 9.5 5 5"/></svg>
+                                        </a>
+                                    </div>
+                                </div>
+
+
                             `;
 
                             accountItem.addEventListener('click', function () {
@@ -94,17 +117,21 @@
                                             data.transactions.forEach(transaction => {
                                                 const transactionItem = document.createElement('li');
                                                 transactionItem.classList.add('transaction-item');
+                                                if (transaction.status)
+                                                    transactionItem.classList.add('closed');
 
                                                 transactionItem.innerHTML = `
+                                                    <h3>${transaction.label}</h3>
                                                     <div>
-                                                        <h3>${transaction.label}</h3>
-                                                        <p>${new Date(transaction.date).toLocaleDateString('fr-FR')} ${new Date(transaction.date).toLocaleTimeString('fr-FR')}</p>
-                                                        <p class="transaction-status">${transaction.status}</p>
+                                                        <div>
+                                                            <p>${new Date(transaction.date).toLocaleDateString('fr-FR')} ${new Date(transaction.date).toLocaleTimeString('fr-FR')}</p>
+                                                            ${ transaction.status ? '<p class="transaction-status">annulée</p>' : '' }
+                                                        </div>
+                                                        <div class="transaction-amount ${transaction.amount > 0 ? 'positive' : 'negative'}">
+                                                            € ${parseFloat(transaction.amount).toLocaleString('fr-FR')}
+                                                        </div>
+                                                        ${ !transaction.status ? '<a href="/admin/transaction/' + transaction.id + '/cancel" class="destructive-btn">Annuler</a>' : '' }
                                                     </div>
-                                                    <div class="transaction-amount ${transaction.amount > 0 ? 'positive' : 'negative'}">
-                                                        € ${parseFloat(transaction.amount).toLocaleString('fr-FR')}
-                                                    </div>
-                                                    <button class="cancel-transaction-btn" data-transaction-id="${transaction.id}">Annuler</button>
                                                 `;
                                                 transactionsSection.appendChild(transactionItem);
                                             });

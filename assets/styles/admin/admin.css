@@ -59,17 +59,19 @@ body {
   margin-right: 10px;
 }
 
-.block-user-btn {
+.destructive-btn {
   background-color: #d9534f;
   color: white;
   padding: 8px 12px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.3s;
+  display: flex;
 }
 
-.block-user-btn:hover {
+.destructive-btn:hover {
   background-color: #c9302c;
 }
 
@@ -107,10 +109,18 @@ body {
 
 .transaction-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e3e3e3;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.transaction-item div {
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .transaction-amount {
@@ -126,16 +136,17 @@ body {
   color: red;
 }
 
-.cancel-transaction-btn {
-  background-color: #d9534f;
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.closed {
+    color: red;
+    border-color: red;
 }
 
-.cancel-transaction-btn:hover {
-  background-color: #c9302c;
+.account-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+p {
+  margin: 0.25em 0;
 }
