@@ -36,7 +36,7 @@
                         </div>
                         <div class="account-details">
                             <h3>{{ account.name }}</h3>
-                            <p>{{ account.type == 1 ? 'Compte Courant' : 'Compte Épargne' }} - ****{{ account.id | slice(-4) }}</p>
+                            <p>{{ account.type == 1 ? 'Compte Courant' : 'Compte Épargne' }} - IBAN: {{ account.id }}</p>
                         </div>
                     </div>
                     <div class="account-balance">
