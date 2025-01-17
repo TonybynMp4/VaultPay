@@ -15,6 +15,14 @@
 			{{ user.firstName }}!</h2>
 		<p>Bienvenue sur votre tableau de bord.</p>
 
+        <div class="alerts">
+           {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
 		<section id="total-balance-card">
 			<h3>Solde Total</h3>
 			<p id="totalBalance">{{ totalBalance|number_format(2, '.', ',') }}
@@ -26,6 +34,10 @@
 				<h3>Transactions récentes</h3>
 
 				<ul>
+                    {% if transactions is empty %}
+                        <p>Aucune transaction pour le moment</p>
+                    {% endif %}
+
 					{% for transaction in transactions %}
 						<li>
 							<div>
