@@ -21,8 +21,8 @@ class TransactionRepository extends ServiceEntityRepository
     public function findLastTransactionsByUser(Users $user, int $limit): array
     {
         return $this->createQueryBuilder('t')
-            ->join('t.FromAccount', 'fa')
-            ->join('t.ToAccount', 'ta')
+            ->leftJoin('t.FromAccount', 'fa')
+            ->leftJoin('t.ToAccount', 'ta')
             ->where('fa.Users = :userId OR ta.Users = :userId')
             ->setParameter('userId', $user->getId())
             ->orderBy('t.Date', 'DESC')
@@ -40,18 +40,6 @@ class TransactionRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
-    }
-
-    public function getTotalBalance(Users $user): float
-    {
-        $totalBalance = 0;
-        $accounts = $user->getBankAccounts();
-
-        foreach ($accounts as $account) {
-            $totalBalance += $account->getBalance();
-        }
-
-        return $totalBalance;
     }
 
     // Valide que le
