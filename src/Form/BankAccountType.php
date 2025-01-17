@@ -30,7 +30,7 @@ class BankAccountType extends AbstractType
                 'label' => 'Montant initial',
                 'currency' => 'EUR',
                 'constraints' => [
-                    new Assert\Positive(),
+                    new Assert\PositiveOrZero(),
                 ],
             ]);
     }

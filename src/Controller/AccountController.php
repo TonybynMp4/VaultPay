@@ -3,37 +3,35 @@
 namespace App\Controller;
 
 use App\Entity\BankAccount;
+use App\Entity\Transaction;
 use App\Form\BankAccountType;
+use App\Repository\BankAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AccountController extends AbstractController
 {
+    #[IsGranted('ROLE_USER')]
     #[Route('/account', name: 'app_account')]
     public function index(): Response
     {
         $user = $this->getUser();
 
-        return $this->render('account/index.html.twig', [
-            'user' => $user,
-        ]);
-
-        $bankAccounts = $user->getBankAccounts();
+        $bankAccounts = $user->getOpenBankAccounts();
 
         return $this->render('account/index.html.twig', [
             'user' => $user,
             'bankAccounts' => $bankAccounts,
         ]);
-
-        return $this->render('account/index.html.twig', [
-        ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/account/create', name: 'app_account_create')]
-    public function createBankAccount(Request $request, EntityManagerInterface $entityManager): Response
+    public function createBankAccount(Request $request, EntityManagerInterface $entityManager, BankAccountRepository $bankAccountRepository): Response
     {
         // Vérifie que l'utilisateur est connecté
         $user = $this->getUser();
@@ -52,7 +50,7 @@ final class AccountController extends AbstractController
                 return $this->redirectToRoute('app_account_create');
             }
 
-            if ($user->getBankAccounts()->count() >= 5) {
+            if ($user->getOpenBankAccounts()->count() >= 5) {
                 $this->addFlash('error', 'Vous ne pouvez pas créer plus de 5 comptes bancaires.');
                 return $this->redirectToRoute('app_account_create');
             }
@@ -62,11 +60,29 @@ final class AccountController extends AbstractController
                 return $this->redirectToRoute('app_account_create');
             }
 
+            $mainAccount = $user->getMainBankAccount();
+            if (!$bankAccountRepository->withdraw($mainAccount, $bankAccount->getBalance()) === 'ok') {
+                $this->addFlash('error', 'Vous n\'avez pas assez d\'argent sur votre compte principal.');
+                return $this->redirectToRoute('app_account_create');
+            }
+
             // Associe l'utilisateur connecté au compte bancaire
             $bankAccount->setUser($user);
 
-            // Enregistre le compte dans la base de données
+            // créer la transaction pour le montant initial
+            $transaction = new Transaction();
+            $transaction->setFromAccount($user->getMainBankAccount());
+            $transaction->setToAccount($bankAccount);
+            $transaction->setAmount($bankAccount->getBalance());
+            $transaction->setDate(new \DateTime());
+
+
+            // soustrait le montant initial du compte principal
+
             $entityManager->persist($bankAccount);
+            $entityManager->persist($transaction);
+            $entityManager->persist($mainAccount);
+
             $entityManager->flush();
 
             // Redirection après succès
@@ -78,7 +94,8 @@ final class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/delete/{id}', name: 'app_account_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    #[Route('/account/delete/{id}', name: 'app_account_delete')]
     public function deleteBankAccount(int $id, EntityManagerInterface $entityManager): Response
     {
         // Récupère le compte à supprimer
@@ -94,8 +111,10 @@ final class AccountController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
 
-        // Supprime le compte
-        $entityManager->remove($bankAccount);
+        // cloture le compte
+        $bankAccount->setClose(true);
+
+        $entityManager->persist($bankAccount);
         $entityManager->flush();
 
         // Redirection après suppression

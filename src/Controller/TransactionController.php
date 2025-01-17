@@ -136,8 +136,6 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    
-    
     #[IsGranted('ROLE_USER')]
     #[Route('/transaction/history', name: 'transaction_history')]
     public function showHistory(
@@ -145,14 +143,14 @@ class TransactionController extends AbstractController
 
         ): Response {
             $user = $this->getUser();
-            $accounts = $user->getBankAccounts();
-            
+            $accounts = $user->getOpenBankAccounts();
+
             return $this->render('transaction/history.html.twig', [
                 'accounts' => $accounts,
                 'totalbalance' => $BankaccountRepository->getTotalBalance($user)
-            ]);   
+            ]);
         }
-        
+
         #[IsGranted('ROLE_USER')]
         #[Route('/transaction/history/{id}', name: 'transaction_history_account')]
         public function showHistoryByID(
@@ -162,11 +160,11 @@ class TransactionController extends AbstractController
         ): Response {
             // Vérifier que le compte appartient à l'utilisateur connecté
             $account = $accountRepository->findOneBy(['id' => $id, 'Users' => $this->getUser()]);
-        
+
             if (!$account) {
                 throw $this->createNotFoundException('Compte non trouvé ou non autorisé.');
             }
-        
+
             // Récupérer les transactions où le compte est soit l'émetteur, soit le destinataire
             $transactions = $transactionRepository->createQueryBuilder('t')
             ->where('t.FromAccount = :accountId OR t.ToAccount = :accountId')
@@ -174,7 +172,7 @@ class TransactionController extends AbstractController
             ->orderBy('t.Date', 'DESC')
             ->getQuery()
             ->getResult();
-        
+
             return $this->render('transaction/historyId.html.twig', [
                 'transactions' => $transactions,
                 'account' => $account,

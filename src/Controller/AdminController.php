@@ -10,9 +10,11 @@ use App\Repository\BankAccountRepository;
 use App\Repository\TransactionRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AdminController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'app_admin')]
     public function index(UsersRepository $usersRepository, BankAccountRepository $bankAccountRepository, TransactionRepository $transactionRepository): Response
     {
@@ -23,6 +25,7 @@ final class AdminController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/user/{id}/transactions', name: 'admin_user_transactions')]
     public function userTransactions(
         int $id,
@@ -56,10 +59,10 @@ final class AdminController extends AbstractController
 
         return $this->render('admin/user_transactions.html.twig', [
             'transactions' => $transactions,
-            
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/user/{id}/block', name: 'admin_user_block')]
     public function blockUser(int $id, UsersRepository $usersRepository, EntityManagerInterface $entityManager): Response
     {
@@ -70,7 +73,7 @@ final class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin');
         }
 
-        $user->setBlocked(1);
+        $user->setBlocked(!$user->isBlocked());
         $entityManager->persist($user);
         $entityManager->flush();
 
@@ -79,46 +82,74 @@ final class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin');
     }
 
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/admin/account/{id}/block', name: 'admin_account_block')]
+    public function blockAccount(int $id, BankAccountRepository $bankAccountRepository, EntityManagerInterface $entityManager): Response
+    {
+        $account = $bankAccountRepository->find($id);
+
+        if (!$account) {
+            $this->addFlash('error', 'Compte bancaire introuvable.');
+            return $this->redirectToRoute('app_admin');
+        }
+
+        $account->setClose(!$account->isClose());
+        $entityManager->persist($account);
+        $entityManager->flush();
+
+        if ($account->isClose()) {
+            $this->addFlash('success', 'Compte bancaire bloqué avec succès.');
+        } else {
+            $this->addFlash('success', 'Compte bancaire débloqué avec succès.');
+        }
+
+        return $this->redirectToRoute('app_admin');
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/user/{id}/accounts', name: 'admin_user_accounts', methods: ['GET'])]
-public function getUserAccounts(BankAccountRepository $bankAccountRepository, int $id): JsonResponse
-{
-    $accounts = $bankAccountRepository->findBy(['Users' => $id]);
+    public function getUserAccounts(BankAccountRepository $bankAccountRepository, int $id): JsonResponse
+    {
+        $accounts = $bankAccountRepository->findBy(['Users' => $id]);
 
-    $data = [];
-    foreach ($accounts as $account) {
-        $data[] = [
-            'id' => $account->getId(),
-            'name' => $account->getName(),
-            'type' => $account->getType(),
-            'balance' => $account->getBalance(),
-        ];
+        $data = [];
+        foreach ($accounts as $account) {
+            $data[] = [
+                'id' => $account->getId(),
+                'name' => $account->getName(),
+                'type' => $account->getType(),
+                'balance' => $account->getBalance(),
+                'closed' => $account->isClose()
+            ];
+        }
+
+        return new JsonResponse(['accounts' => $data]);
     }
 
-    return new JsonResponse(['accounts' => $data]);
-}
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/admin/account/{id}/transactions', name: 'admin_account_transactions', methods: ['GET'])]
+    public function getAccountTransactions(TransactionRepository $transactionRepository, int $id): JsonResponse
+    {
+        $transactions = $transactionRepository->findBy(['FromAccount' => $id]);
 
-#[Route('/admin/account/{id}/transactions', name: 'admin_account_transactions', methods: ['GET'])]
-public function getAccountTransactions(TransactionRepository $transactionRepository, int $id): JsonResponse
-{
-    $transactions = $transactionRepository->findBy(['FromAccount' => $id]);
+        $data = [];
+        foreach ($transactions as $transaction) {
+            $data[] = [
+                'id' => $transaction->getId(),
+                'label' => $transaction->getLabel(),
+                'date' => $transaction->getDate()->format('Y-m-d H:i:s'),
+                'amount' => $transaction->getAmount(),
+                'status' => $transaction->isCancel()
+            ];
+        }
 
-    $data = [];
-    foreach ($transactions as $transaction) {
-        $data[] = [
-            'id' => $transaction->getId(),
-            'label' => $transaction->getLabel(),
-            'date' => $transaction->getDate()->format('Y-m-d H:i:s'),
-            'amount' => $transaction->getAmount(),
-            'status' => $transaction->isCancel() ? 'Annulée' : 'Complétée',
-        ];
+        return new JsonResponse(['transactions' => $data]);
     }
 
-    return new JsonResponse(['transactions' => $data]);
-}
 
-
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin/transaction/{id}/cancel', name: 'admin_transaction_cancel')]
-    public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response
+    public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager, BankAccountRepository $bankAccountRepository): Response
     {
         $transaction = $transactionRepository->find($id);
 
@@ -141,11 +172,11 @@ public function getAccountTransactions(TransactionRepository $transactionReposit
 
         // Mettre à jour les soldes des comptes
         if ($fromAccount) {
-            $fromAccount->setBalance($fromAccount->getBalance() + $amount);
+            $bankAccountRepository->deposit($fromAccount, $amount);
         }
 
         if ($toAccount) {
-            $toAccount->setBalance($toAccount->getBalance() - $amount);
+            $bankAccountRepository->withdraw($toAccount, $amount);
         }
 
         $entityManager->persist($transaction);

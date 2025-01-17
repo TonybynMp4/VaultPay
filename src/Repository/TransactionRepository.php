@@ -42,8 +42,8 @@ class TransactionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Valide que le
-    public function validateTransaction(Transaction $transaction, Users $user): string
+    // Valide que la transaction est correcte et retourne une string d'erreur si ce n'est pas le cas
+    private function validateTransaction(Transaction $transaction, Users $user): string
     {
         $error = "";
 
@@ -82,7 +82,7 @@ class TransactionRepository extends ServiceEntityRepository
     }
 
     // retourne la transaction prête à être persistée si tout est ok, sinon une string d'erreur
-    public function createTransaction(Transaction $transaction, Users $user): string|bool
+    public function createTransaction(Transaction $transaction, Users $user, BankAccountRepository $bankAccountRepository): Transaction|string
     {
         $validationError = $this->validateTransaction($transaction, $user);
         if ($validationError !== "") {
@@ -112,14 +112,13 @@ class TransactionRepository extends ServiceEntityRepository
         $transaction->setDate(new \DateTime());
         $transaction->setCancel(false);
 
-        // Si un compte source est défini, on débite le montant
+        // Met à jour les soldes des comptes
         if ($transaction->getFromAccount()) {
-            $transaction->getFromAccount()->setBalance($transaction->getFromAccount()->getBalance() - $transaction->getAmount());
-        }
-
-        // Si un compte destination est défini, on crédite le montant
-        if ($transaction->getToAccount()) {
-            $transaction->getToAccount()->setBalance($transaction->getToAccount()->getBalance() + $transaction->getAmount());
+            $bankAccountRepository->withdraw($transaction->getFromAccount(), $transaction->getAmount());
+        } elseif ($transaction->getToAccount()) {
+            $bankAccountRepository->deposit($transaction->getToAccount(), $transaction->getAmount());
+        } else {
+            $bankAccountRepository->transfer($transaction->getFromAccount(), $transaction->getToAccount(), $transaction->getAmount());
         }
 
         $this->getEntityManager()->persist($transaction);
