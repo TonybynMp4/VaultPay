@@ -7,18 +7,20 @@
 
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 1vh 2vw;
   color: var(--secondary-text);
-  background-color: hsl(217.2 32.6% 17.5%);
+  background-color: hsl(0deg 0% 88.74%);
   height: 7.5vh;
   margin-bottom: 2vh;
 }
 
 header a {
+  font-size: x-large;
   display: flex;
-  color: inherit;
+  color: #0054fb;
+  font-weight: 800;
   text-decoration: none;
   gap: 1rem;
   align-items: center;
@@ -47,17 +49,15 @@ header img {
 .nav-link {
   text-decoration: none;
   min-width: min-content;
-  color: inherit;
+  color: #848484;
   padding-block: 0.35rem;
   padding-inline: 0.75rem;
-  background-color: var(--background-secondary);
   border-radius: 0.5rem;
   font-size: smaller;
-  border: 1px solid var(--text);
 }
 
 .nav-link:hover {
-  background-color: var(--background-tertiary);
+  color: #4a4a4a;
 }
 
 #opened_nav_account,
