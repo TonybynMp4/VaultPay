@@ -14,7 +14,10 @@
 			{% endif %}
 			{% if app.user %}
 				<a class="nav-link" href="{{ path('app_dashboard') }}">Tableau de bord</a>
-				<a class="nav-link" href="{{ path('app_account') }}">Comptes</a>
+				<a class="nav-link" href="{{ path('app_account') }}">Compte client</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="nav-link" href="{{ path('app_admin') }}">Admin</a>
+                {% endif %}
 				<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
 			{% endif %}
 		</nav>
@@ -34,7 +37,10 @@
 		{% endif %}
 		{% if app.user %}
 			<a class="nav-link" href="{{ path('app_dashboard') }}">Tableau de bord</a>
-			<a class="nav-link" href="{{ path('app_account') }}">Comptes</a>
+			<a class="nav-link" href="{{ path('app_account') }}">Compte client</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="nav-link" href="{{ path('app_admin') }}">Admin</a>
+            {% endif %}
 			<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
 		{% endif %}
 	</nav>
