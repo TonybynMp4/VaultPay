@@ -1,112 +1,126 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Utilisateurs{% endblock %}
+{% block title %}Admin Dashboard{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('styles/admin/admin.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block main %}
-<div class="adminPanel">
-    <div class="user-list">
-        <h2>Liste des Utilisateurs</h2>
-        <ul>
+<main class="admin-dashboard">
+    <!-- Section Utilisateurs -->
+    <section class="admin-section users-section">
+        <h2>Utilisateurs</h2>
+        <ul class="user-list">
             {% for user in users %}
-                <li><a href="#" class="user-link" data-user-id="{{ user.id }}">{{ user.firstname }} - {{ user.email }}</a></li>
+                <li class="user-item" data-user-id="{{ user.id }}">
+                    <div class="user-info">
+                        
+                        <div>
+                            <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+                            <p>{{ user.email }}</p>
+                        </div>
+                    </div>
+                    <button class="block-user-btn" data-user-id="{{ user.id }}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-x"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9.5-5 5"/><path d="m9.5 9.5 5 5"/></svg>
+</button>
+
+                </li>
             {% endfor %}
         </ul>
-    </div>
-    <div class="user-actions">
-        <h2>Actions de l'Utilisateur</h2>
-        <button id="block-user" class="block-user" data-user-id="">Bloquer l'utilisateur</button>
-    </div>
+    </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const blockUserButton = document.getElementById('block-user');
+    <!-- Section Comptes -->
+    <section class="admin-section accounts-section" id="accountsSection">
+        <h2>Comptes</h2>
+        <ul class="account-list">
+            <li>Veuillez sélectionner un utilisateur pour voir ses comptes.</li>
+        </ul>
+    </section>
 
-            document.querySelectorAll('.user-link').forEach(link => {
-                link.addEventListener('click', function () {
-                    const userId = this.getAttribute('data-user-id');
-                    blockUserButton.setAttribute('data-user-id', userId);
-                });
-            });
-
-            blockUserButton.addEventListener('click', function () {
-                const userId = this.getAttribute('data-user-id');
-
-                fetch(`/admin/user/${userId}/block`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': '{{ csrf_token('block_user') }}'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Utilisateur bloqué avec succès');
-                            // Optionally, refresh the user list or perform other actions
-                        } else {
-                            alert('Erreur lors du blocage de l\'utilisateur');
-                        }
-                    })
-                    .catch(error => console.error('Erreur lors du blocage de l\'utilisateur :', error));
-            });
-        });
-    </script>
-
-    <div class="user-transactions">
-        <h2>Transactions de l'Utilisateur</h2>
-        <div id="transaction-history">
-            <!-- Les transactions seront chargées ici -->
-        </div>
-    </div>
-</div>
+    <!-- Section Transactions -->
+    <section class="admin-section transactions-section" id="transactionsSection">
+        <h2>Transactions</h2>
+        <ul class="transaction-list">
+            <li>Veuillez sélectionner un compte pour voir ses transactions.</li>
+        </ul>
+    </section>
+</main>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const userLinks = document.querySelectorAll('.user-link');
+    const userItems = document.querySelectorAll('.user-item');
+    const accountsSection = document.querySelector('#accountsSection .account-list');
+    const transactionsSection = document.querySelector('#transactionsSection .transaction-list');
 
-        userLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-                const userId = this.getAttribute('data-user-id');
+    userItems.forEach(userItem => {
+        userItem.addEventListener('click', function () {
+            const userId = this.getAttribute('data-user-id');
 
-                fetch(`/admin/user/${userId}/transactions`)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('transaction-history').innerHTML = html;
+            // Charger les comptes associés à cet utilisateur
+            fetch(`/admin/user/${userId}/accounts`)
+                .then(response => response.json())
+                .then(data => {
+                    accountsSection.innerHTML = '';
+                    transactionsSection.innerHTML = '<li>Veuillez sélectionner un compte pour voir ses transactions.</li>';
 
-                        // Add event listeners for cancel buttons
-                        const cancelButtons = document.querySelectorAll('.cancel-transaction');
-                        cancelButtons.forEach(button => {
-                            button.addEventListener('click', function () {
-                                const transactionId = this.getAttribute('data-transaction-id');
+                    if (data.accounts.length === 0) {
+                        accountsSection.innerHTML = '<li>Aucun compte trouvé pour cet utilisateur.</li>';
+                    } else {
+                        data.accounts.forEach(account => {
+                            const accountItem = document.createElement('li');
+                            accountItem.classList.add('account-item');
+                            accountItem.setAttribute('data-account-id', account.id);
 
-                                fetch(`/admin/transaction/${transactionId}/cancel`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-Token': '{{ csrf_token('cancel_transaction') }}'
-                                    }
-                                })
+                            accountItem.innerHTML = `
+                                <h3>${account.name}</h3>
+                                <p>${account.type === 1 ? 'Compte Courant' : 'Compte Épargne'}</p>
+                                <p class="account-balance">€ ${parseFloat(account.balance).toLocaleString('fr-FR')}</p>
+                            `;
+
+                            accountItem.addEventListener('click', function () {
+                                const accountId = this.getAttribute('data-account-id');
+
+                                // Charger les transactions pour ce compte
+                                fetch(`/admin/account/${accountId}/transactions`)
                                     .then(response => response.json())
                                     .then(data => {
-                                        if (data.success) {
-                                            alert('Transaction annulée avec succès');
-                                            // Optionally, refresh the transaction list
+                                        transactionsSection.innerHTML = '';
+
+                                        if (data.transactions.length === 0) {
+                                            transactionsSection.innerHTML = '<li>Aucune transaction trouvée pour ce compte.</li>';
                                         } else {
-                                            alert('Erreur lors de l\'annulation de la transaction');
+                                            data.transactions.forEach(transaction => {
+                                                const transactionItem = document.createElement('li');
+                                                transactionItem.classList.add('transaction-item');
+
+                                                transactionItem.innerHTML = `
+                                                    <div>
+                                                        <h3>${transaction.label}</h3>
+                                                        <p>${new Date(transaction.date).toLocaleDateString('fr-FR')} ${new Date(transaction.date).toLocaleTimeString('fr-FR')}</p>
+                                                        <p class="transaction-status">${transaction.status}</p>
+                                                    </div>
+                                                    <div class="transaction-amount ${transaction.amount > 0 ? 'positive' : 'negative'}">
+                                                        € ${parseFloat(transaction.amount).toLocaleString('fr-FR')}
+                                                    </div>
+                                                    <button class="cancel-transaction-btn" data-transaction-id="${transaction.id}">Annuler</button>
+                                                `;
+                                                transactionsSection.appendChild(transactionItem);
+                                            });
                                         }
                                     })
-                                    .catch(error => console.error('Erreur lors de l\'annulation de la transaction :', error));
+                                    .catch(error => console.error(error));
                             });
+
+                            accountsSection.appendChild(accountItem);
                         });
-                    })
-                    .catch(error => console.error('Erreur lors de la récupération des transactions :', error));
-            });
+                    }
+                })
+                .catch(error => console.error(error));
         });
     });
+});
+
 </script>
 {% endblock %}
