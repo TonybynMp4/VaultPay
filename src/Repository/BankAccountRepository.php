@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\BankAccount;
+use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,15 @@ class BankAccountRepository extends ServiceEntityRepository
         parent::__construct($registry, BankAccount::class);
     }
 
-//    /**
-//     * @return BankAccount[] Returns an array of BankAccount objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getTotalBalance(Users $user): float
+    {
+        $totalBalance = 0;
+        $accounts = $user->getBankAccounts();
 
-//    public function findOneBySomeField($value): ?BankAccount
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        foreach ($accounts as $account) {
+            $totalBalance += $account->getBalance();
+        }
+
+        return $totalBalance;
+    }
 }
