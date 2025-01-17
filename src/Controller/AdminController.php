@@ -14,10 +14,12 @@ use Doctrine\ORM\EntityManagerInterface;
 final class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(UsersRepository $usersRepository): Response
+    public function index(UsersRepository $usersRepository, BankAccountRepository $bankAccountRepository, TransactionRepository $transactionRepository): Response
     {
         return $this->render('admin/index.html.twig', [
             'users' => $usersRepository->findAll(),
+            'accounts' => $bankAccountRepository->findAll(),
+            'transactions' => $transactionRepository->findAll(),
         ]);
     }
 
@@ -54,6 +56,7 @@ final class AdminController extends AbstractController
 
         return $this->render('admin/user_transactions.html.twig', [
             'transactions' => $transactions,
+            
         ]);
     }
 
@@ -75,6 +78,44 @@ final class AdminController extends AbstractController
 
         return $this->redirectToRoute('app_admin');
     }
+
+    #[Route('/admin/user/{id}/accounts', name: 'admin_user_accounts', methods: ['GET'])]
+public function getUserAccounts(BankAccountRepository $bankAccountRepository, int $id): JsonResponse
+{
+    $accounts = $bankAccountRepository->findBy(['Users' => $id]);
+
+    $data = [];
+    foreach ($accounts as $account) {
+        $data[] = [
+            'id' => $account->getId(),
+            'name' => $account->getName(),
+            'type' => $account->getType(),
+            'balance' => $account->getBalance(),
+        ];
+    }
+
+    return new JsonResponse(['accounts' => $data]);
+}
+
+#[Route('/admin/account/{id}/transactions', name: 'admin_account_transactions', methods: ['GET'])]
+public function getAccountTransactions(TransactionRepository $transactionRepository, int $id): JsonResponse
+{
+    $transactions = $transactionRepository->findBy(['FromAccount' => $id]);
+
+    $data = [];
+    foreach ($transactions as $transaction) {
+        $data[] = [
+            'id' => $transaction->getId(),
+            'label' => $transaction->getLabel(),
+            'date' => $transaction->getDate()->format('Y-m-d H:i:s'),
+            'amount' => $transaction->getAmount(),
+            'status' => $transaction->isCancel() ? 'Annulée' : 'Complétée',
+        ];
+    }
+
+    return new JsonResponse(['transactions' => $data]);
+}
+
 
     #[Route('/admin/transaction/{id}/cancel', name: 'admin_transaction_cancel')]
     public function cancelTransaction(int $id, TransactionRepository $transactionRepository, EntityManagerInterface $entityManager): Response

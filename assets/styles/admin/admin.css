@@ -1,82 +1,141 @@
-#admin {
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 20px;
-  justify-content: center;
-  display: flex;
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.admin-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  max-width: 900px;
-  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
-.user-list,
-.user-transactions {
-  background: white;
-  padding: 20px;
+.admin-section {
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Titres */
-.user-list h2,
-.user-transactions h2 {
-  text-align: center;
-  color: #333;
+.admin-section h2 {
   font-size: 1.5rem;
   margin-bottom: 15px;
 }
 
 /* Liste des utilisateurs */
-.user-list ul {
+.user-list {
   list-style: none;
   padding: 0;
 }
 
-.user-list li {
-  background: #ffffff;
-  margin: 8px 0;
-  padding: 12px;
-  border-radius: 5px;
-  transition: 0.3s;
+.user-item {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   display: flex;
   align-items: center;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
 }
 
-/* Effet au survol */
-.user-list li:hover {
-  background: #e3f2fd;
-  transform: scale(1.03);
+.user-item:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
 }
 
-/* Liens des utilisateurs */
-.user-link {
-  text-decoration: none;
-  color: #007bff;
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #5a2dd3;
+  color: white;
+  font-size: 1.5rem;
   font-weight: bold;
-  width: 100%;
   text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
-.user-link:hover {
-  color: #0056b3;
-}
-
-/* Section des transactions */
-.user-transactions {
-  min-height: 200px;
-}
-
-#transaction-history {
-  margin-top: 10px;
-  padding: 10px;
-  background: #fafafa;
+.block-user-btn {
+  background-color: #d9534f;
+  color: white;
+  padding: 8px 12px;
+  border: none;
   border-radius: 5px;
-  min-height: 150px;
-  box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-.adminPanel {
-  height: 75vh;
+
+.block-user-btn:hover {
+  background-color: #c9302c;
+}
+
+/* Comptes */
+.account-list {
+  list-style: none;
+  padding: 0;
+}
+
+.account-item {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.account-item:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.account-balance {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #5a2dd3;
+}
+
+/* Transactions */
+.transaction-list {
+  list-style: none;
+  padding: 0;
+}
+
+.transaction-item {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.transaction-amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.transaction-amount.positive {
+  color: green;
+}
+
+.transaction-amount.negative {
+  color: red;
+}
+
+.cancel-transaction-btn {
+  background-color: #d9534f;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-transaction-btn:hover {
+  background-color: #c9302c;
 }

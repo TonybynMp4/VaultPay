@@ -136,27 +136,43 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    
+    
     #[IsGranted('ROLE_USER')]
     #[Route('/transaction/history', name: 'transaction_history')]
     public function showHistory(
-        TransactionRepository $transactionRepository
-    ): Response {
-        $user = $this->getUser();
-        $accounts = $user->getBankAccounts();
-        $transactions = [];
+        BankAccountRepository $BankaccountRepository
 
-        foreach ($accounts as $account) {
-            $accountTransactions = $transactionRepository->findLastTransactionsByAccount($account->getId(), 100);
-            $transactions = array_merge($transactions, $accountTransactions);
+        ): Response {
+            $user = $this->getUser();
+            $accounts = $user->getBankAccounts();
+            
+            return $this->render('transaction/history.html.twig', [
+                'accounts' => $accounts,
+                'totalbalance' => $BankaccountRepository->getTotalBalance($user)
+            ]);   
         }
-
-        usort($transactions, function ($a, $b) {
-            return $b->getDate() <=> $a->getDate();
-        });
-
-        return $this->render('transaction/history.html.twig', [
-            'transactions' => $transactions,
-        ]);
-
+        
+        #[IsGranted('ROLE_USER')]
+        #[Route('/transaction/history/{id}', name: 'transaction_history_account')]
+        public function showHistoryByID(
+            TransactionRepository $transactionRepository,
+            BankAccountRepository $accountRepository,
+            int $id
+        ): Response {
+            // Vérifier que le compte appartient à l'utilisateur connecté
+            $account = $accountRepository->findOneBy(['id' => $id, 'Users' => $this->getUser()]);
+        
+            if (!$account) {
+                throw $this->createNotFoundException('Compte non trouvé ou non autorisé.');
+            }
+        
+            // Récupérer les transactions pour ce compte
+            $transactions = $transactionRepository->findBy(['FromAccount' => $id], ['Date' => 'DESC']);
+        
+            return $this->render('transaction/historyId.html.twig', [
+                'transactions' => $transactions,
+                'account' => $account,
+            ]);
+        }
     }
-}

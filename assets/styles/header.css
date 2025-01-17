@@ -80,7 +80,7 @@ nav {
 #aside_nav {
   display: none;
   position: fixed;
-  background-color: var(--background-secondary);
+  background-color: hsl(0deg 0% 88.74%);
   color: var(--secondary-text);
   padding: 1rem;
   height: 100vh;

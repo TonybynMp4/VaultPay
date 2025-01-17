@@ -1,0 +1,119 @@
+/* Style pour l'entête de la page */
+h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Conteneur principal */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.table th {
+    background-color: #f3f3f3;
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Ligne hover */
+.table tbody tr:hover {
+    background-color: #f7f7f7;
+}
+
+/* Couleurs conditionnelles */
+.table td {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.table td:nth-child(4) {
+    font-weight: bold;
+}
+
+.table td:nth-child(4):not(.positive):not(.negative) {
+    color: #000;
+}
+
+.table td.positive {
+    color: green;
+}
+
+.table td.negative {
+    color: red;
+}
+
+/* Boutons et filtres */
+button, select {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6200ea;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover, select:hover {
+    background-color: #4500b5;
+}
+
+button:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
+}
+
+.account-summary {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #6200ea, #8e44ad);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.account-summary h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.account-summary .balance {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.account-summary .available-balance {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+

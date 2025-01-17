@@ -1,55 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Historique des Transactions{% endblock %}
+{% block title %}Mes Comptes{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/transaction/history.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+{% endblock %}
 
 {% block main %}
-    <main>
-    <h1>Historique des Transactions</h1>
+<main>
+    <!-- Section Résumé des Actifs -->
+    <div class="total-assets">
+        <h2>Actifs Totaux</h2>
+        <p class="total-balance">€ {{ totalbalance | number_format(2, ',', ' ') }}</p>
+    </div>
 
-    {% if transactions is empty %}
-        <p>Aucune transaction trouvée.</p>
-    {% else %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>emetteurr</th>
-                    <th>Destinataire</th>
-                    <th>Montant</th>
-                    <th>Type</th>
-                    <th>Libellé</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for transaction in transactions %}
-                    <tr>
-                        <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
-                        <td>
-                            {{ transaction.fromAccount ? transaction.fromAccount.getUser().getFirstname ~ ' ' ~ transaction.fromAccount.getUser().getLastname
-                            : 'Non défini' }}
-                        </td>
-                        <td>
-                            {{ transaction.toAccount
-                            ? transaction.toAccount.getUser().getFirstname ~ ' ' ~ transaction.toAccount.getUser().getLastname
-                            : 'Non défini' }}
-                        </td>
-                        <td>{{ transaction.amount }}</td>
-                        <td>
-                            {% if transaction.type == 0 %}
-                                Virement
-                            {% elseif transaction.type == 1 %}
-                                Dépôt
-                            {% elseif transaction.type == 2 %}
-                                Retrait
+    <!-- Liste des Comptes -->
+    <section class="accounts-section">
+        <h2>Sélectionnez un Compte</h2>
+        <p>Choisissez un compte pour afficher les détails ou effectuer des transactions.</p>
+        <input type="text" placeholder="Rechercher un compte..." class="search-input">
+
+        <div class="accounts-container" id="accountsContainer">
+            {% for account in accounts %}
+                <div class="account-item" data-name="{{ account.name | lower }}">
+                    <div class="account-info">
+                        <div class="account-icon">
+                            {% if account.type <= 1 %}
+                                <i class="fas fa-wallet"></i>
+                            {% elseif account.type == 2 %}
+                                <i class="fas fa-piggy-bank"></i>
                             {% else %}
-                                Inconnu
+                                <i class="fas fa-briefcase"></i>
                             {% endif %}
-                        </td>
-                        <td>{{ transaction.label }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </main>
-    {% endif %}
+                        </div>
+                        <div class="account-details">
+                            <h3>{{ account.name }}</h3>
+                            <p>{{ account.type == 1 ? 'Compte Courant' : 'Compte Épargne' }} - ****{{ account.id | slice(-4) }}</p>
+                        </div>
+                    </div>
+                    <div class="account-balance">
+                        <p class="balance">€ {{ account.balance | number_format(2, ',', ' ') }}</p>
+                        <a href="{{ path('transaction_history_account', { id: account.id }) }}" class="select-link">Sélectionner</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.querySelector('.search-input');
+        const accountsContainer = document.querySelector('#accountsContainer');
+        const accountItems = accountsContainer.querySelectorAll('.account-item');
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            accountItems.forEach(item => {
+                const accountName = item.getAttribute('data-name');
+                if (accountName.includes(searchTerm)) {
+                    item.style.display = 'flex'; // Afficher les éléments correspondants
+                } else {
+                    item.style.display = 'none'; // Masquer les éléments non correspondants
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
