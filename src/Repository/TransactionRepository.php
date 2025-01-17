@@ -18,6 +18,19 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
+    public function findLastTransactionsByUser(Users $user, int $limit): array
+    {
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.FromAccount', 'fa')
+            ->leftJoin('t.ToAccount', 'ta')
+            ->where('fa.Users = :userId OR ta.Users = :userId')
+            ->setParameter('userId', $user->getId())
+            ->orderBy('t.Date', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findLastTransactionsByAccount(int $accountId, int $limit): array
     {
         return $this->createQueryBuilder('t')

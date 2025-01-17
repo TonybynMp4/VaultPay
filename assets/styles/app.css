@@ -1,13 +1,13 @@
 :root {
-  --background: #fff;
-  --background-secondary: #222831;
-  --background-tertiary: #393e46;
-  --text: #000;
-  --secondary-text: #eeeeee;
-  --tertiary-text: #b9b9b9;
-  --primary-action: #0866ff;
-  --secondary-action: hsl(240 3.7% 15.9%);
-  --link: #0866ff;
+    --background: #f3f4f6;
+    --background-secondary: #ffffff;
+    --background-tertiary: #393E46;
+    --text: #000;
+    --secondary-text: #EEEEEE;
+    --tertiary-text: #b9b9b9;
+    --primary-action: #0866ff;
+    --secondary-action: hsl(240 3.7% 15.9%);
+    --link: #0866ff;
 }
 
 body {
@@ -40,4 +40,10 @@ main {
   font-size: 1.25rem;
   font-weight: bold;
   text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    display: block;
 }
