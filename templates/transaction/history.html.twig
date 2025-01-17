@@ -2,6 +2,11 @@
 
 {% block title %}Mes Comptes{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/transaction/history.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block main %}
 <main>
     <!-- Section Résumé des Actifs -->
@@ -11,17 +16,57 @@
     </div>
 
     <!-- Liste des Comptes -->
-    <div class="accounts-container">
-        {% for account in accounts %}
-            <div class="account-card">
-                <h3>{{ account.name }}</h3>
-                <p class="balance">€ {{ account.balance | number_format(2, ',', ' ') }}</p>
-                <p class="account-details">{{ account.type }} - ****{{ account.id | slice(-4) }}</p>
-                <a href="{{ path('transaction_history_account', { id: account.id }) }}" class="view-transactions-btn">
-                    Voir les transactions
-                </a>
-            </div>
-        {% endfor %}
-    </div>
+    <section class="accounts-section">
+        <h2>Sélectionnez un Compte</h2>
+        <p>Choisissez un compte pour afficher les détails ou effectuer des transactions.</p>
+        <input type="text" placeholder="Rechercher un compte..." class="search-input">
+
+        <div class="accounts-container" id="accountsContainer">
+            {% for account in accounts %}
+                <div class="account-item" data-name="{{ account.name | lower }}">
+                    <div class="account-info">
+                        <div class="account-icon">
+                            {% if account.type <= 1 %}
+                                <i class="fas fa-wallet"></i>
+                            {% elseif account.type == 2 %}
+                                <i class="fas fa-piggy-bank"></i>
+                            {% else %}
+                                <i class="fas fa-briefcase"></i>
+                            {% endif %}
+                        </div>
+                        <div class="account-details">
+                            <h3>{{ account.name }}</h3>
+                            <p>{{ account.type == 1 ? 'Compte Courant' : 'Compte Épargne' }} - ****{{ account.id | slice(-4) }}</p>
+                        </div>
+                    </div>
+                    <div class="account-balance">
+                        <p class="balance">€ {{ account.balance | number_format(2, ',', ' ') }}</p>
+                        <a href="{{ path('transaction_history_account', { id: account.id }) }}" class="select-link">Sélectionner</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.querySelector('.search-input');
+        const accountsContainer = document.querySelector('#accountsContainer');
+        const accountItems = accountsContainer.querySelectorAll('.account-item');
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            accountItems.forEach(item => {
+                const accountName = item.getAttribute('data-name');
+                if (accountName.includes(searchTerm)) {
+                    item.style.display = 'flex'; // Afficher les éléments correspondants
+                } else {
+                    item.style.display = 'none'; // Masquer les éléments non correspondants
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

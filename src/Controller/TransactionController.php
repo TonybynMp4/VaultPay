@@ -161,16 +161,16 @@ class TransactionController extends AbstractController
             int $id
         ): Response {
             // Vérifier que le compte appartient à l'utilisateur connecté
-            $account = $accountRepository->findOneBy(['id' => $id, 'user' => $this->getUser()]);
+            $account = $accountRepository->findOneBy(['id' => $id, 'Users' => $this->getUser()]);
         
             if (!$account) {
                 throw $this->createNotFoundException('Compte non trouvé ou non autorisé.');
             }
         
             // Récupérer les transactions pour ce compte
-            $transactions = $transactionRepository->findBy(['fromAccount' => $id], ['date' => 'DESC']);
+            $transactions = $transactionRepository->findBy(['FromAccount' => $id], ['Date' => 'DESC']);
         
-            return $this->render('transaction/history.html.twig', [
+            return $this->render('transaction/historyId.html.twig', [
                 'transactions' => $transactions,
                 'account' => $account,
             ]);

@@ -1,119 +1,130 @@
-/* Style pour l'entête de la page */
-h1 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* Conteneur principal */
+/* Conteneur Principal */
 main {
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: auto;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', Arial, sans-serif;
 }
 
-/* Table */
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.table th, .table td {
-    padding: 15px 20px;
-    text-align: left;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.table th {
-    background-color: #f3f3f3;
-    font-weight: bold;
-    color: #555;
-    text-transform: uppercase;
-}
-
-.table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* Ligne hover */
-.table tbody tr:hover {
-    background-color: #f7f7f7;
-}
-
-/* Couleurs conditionnelles */
-.table td {
-    font-size: 0.95rem;
-    color: #333;
-}
-
-.table td:nth-child(4) {
-    font-weight: bold;
-}
-
-.table td:nth-child(4):not(.positive):not(.negative) {
-    color: #000;
-}
-
-.table td.positive {
-    color: green;
-}
-
-.table td.negative {
-    color: red;
-}
-
-/* Boutons et filtres */
-button, select {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #6200ea;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover, select:hover {
-    background-color: #4500b5;
-}
-
-button:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
-}
-
-.account-summary {
-    padding: 20px;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #6200ea, #8e44ad);
-    color: white;
-    border-radius: 10px;
+/* Section des Actifs Totaux */
+.total-assets {
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #5a2dd3, #7a4ce3);
+    color: white;
+    border-radius: 12px;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.account-summary h2 {
-    font-size: 1.5rem;
+.total-assets h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
-.account-summary .balance {
-    font-size: 2.5rem;
-    font-weight: bold;
+.total-assets .total-balance {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 
-.account-summary .available-balance {
+/* Section des Comptes */
+.accounts-section h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.accounts-section p {
     font-size: 1rem;
-    opacity: 0.9;
-    margin-top: 5px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
+.search-input {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    padding: 10px;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur des Comptes */
+.accounts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Éléments de Compte */
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.account-icon {
+    font-size: 1.8rem;
+    color: #5a2dd3;
+}
+
+.account-details h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.account-details p {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Solde et lien */
+.account-balance {
+    text-align: right;
+}
+
+.account-balance .balance {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.account-balance .select-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #5a2dd3;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.account-balance .select-link:hover {
+    color: #7a4ce3;
+}
