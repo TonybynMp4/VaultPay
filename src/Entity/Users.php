@@ -168,7 +168,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->bankAccounts->contains($bankAccount)) {
             $this->bankAccounts->add($bankAccount);
-            $bankAccount->setUserId($this);
+            $bankAccount->setUser($this);
         }
 
         return $this;

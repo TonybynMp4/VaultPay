@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
 
             // create main bank account
             $bankAccount = new BankAccount();
-            $bankAccount->setUserId($user);
+            $bankAccount->setUser($user);
             $bankAccount->setBalance(80); // 80€ initialement
             $bankAccount->setClose(false);
             $bankAccount->setType(0); // 0: Principal
