@@ -81,8 +81,8 @@ class TransactionRepository extends ServiceEntityRepository
         return $error;
     }
 
-    // retourne la transaction prête à être persistée si tout est ok, sinon une string d'erreur
-    public function createTransaction(Transaction $transaction, Users $user, BankAccountRepository $bankAccountRepository): Transaction|string
+    // Crée une transaction et met à jour les soldes des comptes
+    public function createTransaction(Transaction $transaction, Users $user): bool | string
     {
         $validationError = $this->validateTransaction($transaction, $user);
         if ($validationError !== "") {
@@ -112,13 +112,17 @@ class TransactionRepository extends ServiceEntityRepository
         $transaction->setDate(new \DateTime());
         $transaction->setCancel(false);
 
+        $bankAccountRepository = $this->getEntityManager()->getRepository(BankAccount::class);
         // Met à jour les soldes des comptes
-        if ($transaction->getFromAccount()) {
+        if ($transaction->getFromAccount() && $transaction->getToAccount()) {
+            $bankAccountRepository->transfer($transaction->getFromAccount(), $transaction->getToAccount(), $transaction->getAmount());
+        } elseif ($transaction->getFromAccount()) {
             $bankAccountRepository->withdraw($transaction->getFromAccount(), $transaction->getAmount());
-        } elseif ($transaction->getToAccount()) {
+        }
+        elseif ($transaction->getToAccount()) {
             $bankAccountRepository->deposit($transaction->getToAccount(), $transaction->getAmount());
         } else {
-            $bankAccountRepository->transfer($transaction->getFromAccount(), $transaction->getToAccount(), $transaction->getAmount());
+            throw new \Exception("Un des comptes doit être renseigné");
         }
 
         $this->getEntityManager()->persist($transaction);

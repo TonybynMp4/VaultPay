@@ -39,29 +39,32 @@ class BankAccountRepository extends ServiceEntityRepository
             return 'Le compte source ne contient pas assez d\'argent.';
         }
 
-        if ($fromAccount->getId() === $toAccount->getId()) {
+        if ($fromAccount && $toAccount && $fromAccount === $toAccount) {
             return 'Vous ne pouvez pas transférer de l\'argent sur le même compte.';
         }
 
-        if ($fromAccount->getType() === 2 && $fromAccount->getBalance() - $amount < 0) {
+        if ($fromAccount && $fromAccount->getType() === 2 && $fromAccount->getBalance() - $amount < 0) {
             return 'Vous ne pouvez pas retirer plus d\'argent que ce que vous avez sur un compte épargne.';
         }
 
-        if ($toAccount->getType() !== 2 && $fromAccount->getBalance() - $amount < -400) {
+        if (($toAccount && $toAccount->getType() !== 2) && ($fromAccount && $fromAccount->getBalance() - $amount < -400)) {
             return 'Le découvert maximum autorisé est de 400€.';
         }
+
+        return "";
     }
 
     public function withdraw(BankAccount $account, float $amount): string
     {
-        $error = $this->validateTransaction($account, null, $amount);
-        if ($error) {
-            return $error;
+        $validationError = $this->validateTransaction($account, null, $amount);
+        if ($validationError !== "") {
+            return $validationError;
         }
 
+        $em = $this->getEntityManager();
         $account->setBalance($account->getBalance() - $amount);
-        $this->_em->persist($account);
-        $this->_em->flush();
+        $em->persist($account);
+        $em->flush();
         return 'ok';
     }
 
@@ -72,9 +75,10 @@ class BankAccountRepository extends ServiceEntityRepository
             return $error;
         }
 
+        $em = $this->getEntityManager();
         $account->setBalance($account->getBalance() + $amount);
-        $this->_em->persist($account);
-        $this->_em->flush();
+        $em->persist($account);
+        $em->flush();
         return 'ok';
     }
 
@@ -85,13 +89,14 @@ class BankAccountRepository extends ServiceEntityRepository
             return $error;
         }
 
+        $em = $this->getEntityManager();
+
         $fromAccount->setBalance($fromAccount->getBalance() - $amount);
         $toAccount->setBalance($toAccount->getBalance() + $amount);
 
-        $this->_em->persist($fromAccount);
-        $this->_em->persist($toAccount);
-        $this->_em->flush();
-
+        $em->persist($fromAccount);
+        $em->persist($toAccount);
+        $em->flush();
         return 'ok';
     }
 }
