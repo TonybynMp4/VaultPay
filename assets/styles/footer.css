@@ -1,6 +1,6 @@
 footer {
     background-color: var(--background-secondary);
-    color: var(--secondary-text);
+    color: var(--text);
     padding: 2vh 0;
     text-align: center;
     display: flex;
