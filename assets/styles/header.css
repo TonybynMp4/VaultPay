@@ -10,7 +10,7 @@ header {
   justify-content: space-around;
   align-items: center;
   padding: 1vh 2vw;
-  color: var(--secondary-text);
+  color: #848484;
   background-color: hsl(0deg 0% 88.74%);
   height: 7.5vh;
   margin-bottom: 2vh;
