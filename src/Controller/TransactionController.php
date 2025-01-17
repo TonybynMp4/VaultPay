@@ -167,8 +167,13 @@ class TransactionController extends AbstractController
                 throw $this->createNotFoundException('Compte non trouvé ou non autorisé.');
             }
         
-            // Récupérer les transactions pour ce compte
-            $transactions = $transactionRepository->findBy(['FromAccount' => $id], ['Date' => 'DESC']);
+            // Récupérer les transactions où le compte est soit l'émetteur, soit le destinataire
+            $transactions = $transactionRepository->createQueryBuilder('t')
+            ->where('t.FromAccount = :accountId OR t.ToAccount = :accountId')
+            ->setParameter('accountId', $id)
+            ->orderBy('t.Date', 'DESC')
+            ->getQuery()
+            ->getResult();
         
             return $this->render('transaction/historyId.html.twig', [
                 'transactions' => $transactions,
