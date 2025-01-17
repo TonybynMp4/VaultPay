@@ -171,11 +171,11 @@ final class AdminController extends AbstractController
         $transaction->setCancel(1);
 
         // Mettre à jour les soldes des comptes
-        if ($fromAccount) {
+        if ($fromAccount && $toAccount) {
+            $bankAccountRepository->transfer($toAccount, $fromAccount, $amount);
+        } elseif ($fromAccount) {
             $bankAccountRepository->deposit($fromAccount, $amount);
-        }
-
-        if ($toAccount) {
+        } elseif ($toAccount) {
             $bankAccountRepository->withdraw($toAccount, $amount);
         }
 
