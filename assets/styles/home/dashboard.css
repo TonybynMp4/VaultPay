@@ -3,22 +3,113 @@ main {
     margin-inline: auto !important;
 }
 
-#total-balance-card {
+main > section {
+    width: calc(100% - 2rem);
+}
+
+section {
     background-color: white;
     border: 1px solid hsl(240 5.9% 90%);
     border-radius: 0.5rem;
     padding: 1rem;
+    height: fit-content;
+}
+
+main > article {
+    width: calc(100%);
+}
+
+article {
+    margin: 1.5rem 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media screen and (min-width: 640px) {
+    article {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    article {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+#transactions {
+    grid-column: span 2 / span 2;
+    font-size: 0.9rem;
+}
+
+section h3 {
+    font-size: 1.5rem;
 }
 
 #totalBalance {
-    font-size: 1.875rem;
+    font-size: 1.275rem;
     line-height: 2.25rem;
+    font-weight: 700;
+    margin: 1rem 0 0 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid hsl(240 5.9% 90%);
+}
+
+.transaction-label {
+    font-size: 1.125em;
+    line-height: 1.5em;
     font-weight: 700;
 }
 
-#total-balance-card h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    line-height: 1.25rem;
-    letter-spacing: -0.025em;
+.transaction-amount {
+    font-size: 1em;
+    line-height: 1.25em;
+    font-weight: 700;
+}
+
+.transaction-date {
+    font-size: 0.8em;
+    line-height: 1em;
+    font-weight: 700;
+}
+
+.negative {
+    color: rgb(239 68 68);
+}
+
+.positive {
+    color: rgb(34 197 94);
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    border: 1px solid hsl(240 5.9% 90%);
+    border-radius: 0.5rem;
+    background-color: var(--background-secondary);
+    text-decoration: none;
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    color: var(--text);
+}
+
+.button:hover {
+    background-color: var(--text);
+    color: var(--background-secondary);
 }

@@ -4,21 +4,82 @@
 {% block title %}{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('styles/home/dashboard.css') }}">
+	<link rel="stylesheet" href="{{ asset('styles/home/dashboard.css') }}">
 {% endblock %}
 
-{% block javascripts %}
-{% endblock %}
+{% block javascripts %}{% endblock %}
 
 {% block main %}
-<main style="margin-inline: 2rem; margin-block: 2rem;">
-    <h2>Vous revoila {{ user.firstName }}!</h2>
-    <p>Bienvenue sur votre tableau de bord.</p>
+	<main style="margin-inline: 2rem; margin-block: 2rem;">
+		<h2>Vous revoila
+			{{ user.firstName }}!</h2>
+		<p>Bienvenue sur votre tableau de bord.</p>
 
-    <div id="total-balance-card">
-        <h3>Solde Total</h3>
-        <p id="totalBalance">{{ totalBalance|number_format(2, '.', ',') }} €</p>
-    </div>
+		<section id="total-balance-card">
+			<h3>Solde Total</h3>
+			<p id="totalBalance">{{ totalBalance|number_format(2, '.', ',') }}
+				€</p>
+		</section>
 
-</main>
+		<article>
+			<section id="transactions">
+				<h3>Transactions récentes</h3>
+
+				<ul>
+					{% for transaction in transactions %}
+						<li>
+							<div>
+								<h5 class="transaction-label">{{ transaction.label ? transaction.label : 'Transaction' }}</h5>
+								<p class="transaction-date">
+									{{ transaction.date|date('d/m/Y') }}
+								</p>
+
+							</div>
+							<p class="transaction-amount {% if transaction.type == 2 %}positive{% elseif transaction.type == 1 %}negative{% endif %}">
+								<span>
+									{% if transaction.type == 2 %}
+										+
+									{% elseif transaction.type == 1 %}
+										-
+									{% endif %}
+								</span>
+								{{ transaction.amount|number_format(2, '.', ',') }}
+								€
+							</p>
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+            <section>
+                <h3>Actions rapides</h3>
+                <ul>
+                    <li>
+                        <a class="button" href="{{path('transaction_deposit')}}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                        Faire un dépôt
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button" href="{{path('transaction_withdraw')}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+                            Faire un retrait
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button" href="{{path('transaction_transfer')}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-arrow-out-up-right"><path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/><path d="m21 3-9 9"/><path d="M15 3h6v6"/></svg>
+                            Faire un virement
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button" href="{{path('transaction_history')}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gallery-vertical-end"><path d="M7 2h10"/><path d="M5 6h14"/><rect width="18" height="12" x="3" y="10" rx="2"/></svg>
+                            Voir l'historique des transactions
+                        </a>
+                    </li>
+                </ul>
+            </section>
+		</article>
+
+	</main>
 {% endblock %}
