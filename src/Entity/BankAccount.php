@@ -68,12 +68,12 @@ class BankAccount
         return $this;
     }
 
-    public function isClose(): ?bool
+    public function isClose(): ?int
     {
         return $this->Close;
     }
 
-    public function setClose(bool $Close): static
+    public function setClose(int $Close): static
     {
         $this->Close = $Close;
 
