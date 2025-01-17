@@ -58,16 +58,17 @@ main {
     font-weight: bold;
 }
 
-.table td:nth-child(4):not(.positive):not(.negative) {
-    color: #000;
+/* Définir les couleurs conditionnelles pour les transactions */
+.table tr.outgoing td:nth-child(4) {
+    color: red;
 }
 
-.table td.positive {
+.table tr.incoming td:nth-child(4) {
     color: green;
 }
 
-.table td.negative {
-    color: red;
+.table tr.neutral td:nth-child(4) {
+    color: gray;
 }
 
 /* Boutons et filtres */
@@ -91,6 +92,7 @@ button:focus, select:focus {
     box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
 }
 
+/* Section de résumé du compte */
 .account-summary {
     padding: 20px;
     margin-bottom: 20px;
@@ -117,3 +119,22 @@ button:focus, select:focus {
     margin-top: 5px;
 }
 
+/* Rendre le tableau responsive */
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    .account-summary h2 {
+        font-size: 1.2rem;
+    }
+
+    .account-summary .balance {
+        font-size: 2rem;
+    }
+
+    .account-summary .available-balance {
+        font-size: 0.9rem;
+    }
+}

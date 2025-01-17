@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
     {% for transaction in transactions %}
-        <tr>
+        <tr class="{% if transaction.fromAccount is not null and transaction.fromAccount.id == account.id %}outgoing{% elseif transaction.toAccount is not null and transaction.toAccount.id == account.id %}incoming{% else %}neutral{% endif %}">
             <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
             <td>
                 {% if transaction.fromAccount is not null %}
@@ -51,16 +51,16 @@
                     Non défini
                 {% endif %}
             </td>
-            <td class="{{ transaction.amount > 0 ? 'positive' : 'negative' }}">
+            <td class="amount">
                 {{ transaction.amount | number_format(2, ',', ' ') }} €
             </td>
             <td>
                 {% if transaction.type == 0 %}
                     Virement
                 {% elseif transaction.type == 1 %}
-                    Dépôt
-                {% elseif transaction.type == 2 %}
                     Retrait
+                {% elseif transaction.type == 2 %}
+                    Dépôt
                 {% else %}
                     Inconnu
                 {% endif %}
@@ -69,6 +69,7 @@
         </tr>
     {% endfor %}
 </tbody>
+
 
             </table>
         </div>
