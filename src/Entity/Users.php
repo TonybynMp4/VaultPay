@@ -164,6 +164,23 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->bankAccounts;
     }
 
+
+    /**
+     * @return BankAccount|null
+     */
+    public function getMainBankAccount(): ?BankAccount
+    {
+        return $this->bankAccounts->filter(fn (BankAccount $account) => $account->getType() === 0)->first();
+    }
+
+    /**
+     * @return Collection<int, BankAccount>
+     */
+    public function getOpenBankAccounts(): Collection
+    {
+        return $this->bankAccounts->filter(fn (BankAccount $account) => !$account->isClose());
+    }
+
     public function addBankAccount(BankAccount $bankAccount): static
     {
         if (!$this->bankAccounts->contains($bankAccount)) {
