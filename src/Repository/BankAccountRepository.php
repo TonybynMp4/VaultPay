@@ -35,6 +35,10 @@ class BankAccountRepository extends ServiceEntityRepository
             return 'Le montant doit être positif.';
         }
 
+        if (!$fromAccount && !$toAccount) {
+            return 'Les comptes source et destination ne peuvent pas être tous les deux nuls.';
+        }
+
         if ($fromAccount && $fromAccount->getBalance() < $amount) {
             return 'Le compte source ne contient pas assez d\'argent.';
         }
@@ -49,6 +53,10 @@ class BankAccountRepository extends ServiceEntityRepository
 
         if (($toAccount && $toAccount->getType() !== 2) && ($fromAccount && $fromAccount->getBalance() - $amount < -400)) {
             return 'Le découvert maximum autorisé est de 400€.';
+        }
+
+        if ($toAccount && $toAccount->getType() === 2 && $toAccount->getBalance() + $amount > 25000) {
+            return 'Le plafond d\'un compte épargne est de 25000€.';
         }
 
         return "";
