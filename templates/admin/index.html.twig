@@ -90,7 +90,7 @@
                                                 : '<p class="account-status open">Ouvert</p>'
                                         }
                                         <p>IBAN: ${account.id}</p>
-                                        <p class="account-balance">€ ${parseFloat(account.balance).toLocaleString('fr-FR')}</p>
+                                        <p class="account-balance">${parseFloat(account.balance).toLocaleString('fr-FR')} €</p>
                                     </div>
                                     <div class="account-actions">
                                         <a href="/admin/account/${account.id}/block" class="destructive-btn">
@@ -128,7 +128,7 @@
                                                             ${ transaction.status ? '<p class="transaction-status">annulée</p>' : '' }
                                                         </div>
                                                         <div class="transaction-amount ${transaction.amount > 0 ? 'positive' : 'negative'}">
-                                                            € ${parseFloat(transaction.amount).toLocaleString('fr-FR')}
+                                                            ${parseFloat(transaction.amount).toLocaleString('fr-FR')} €
                                                         </div>
                                                         ${ !transaction.status ? '<a href="/admin/transaction/' + transaction.id + '/cancel" class="destructive-btn">Annuler</a>' : '' }
                                                     </div>

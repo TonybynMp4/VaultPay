@@ -9,7 +9,7 @@ main {
 /* Section des Actifs Totaux */
 .total-assets {
     text-align: center;
-    background: linear-gradient(135deg, #5a2dd3, #7a4ce3);
+    background: linear-gradient(315deg, #6a11cb, #2545fc);
     color: white;
     border-radius: 12px;
     padding: 30px 20px;
@@ -90,7 +90,7 @@ main {
 
 .account-icon {
     font-size: 1.8rem;
-    color: #5a2dd3;
+    color: #2545fc;
 }
 
 .account-details h3 {
@@ -120,11 +120,11 @@ main {
     display: inline-block;
     font-size: 0.9rem;
     font-weight: 600;
-    color: #5a2dd3;
+    color: #2545fc;
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .account-balance .select-link:hover {
-    color: #7a4ce3;
+    color: #2e3b84;
 }

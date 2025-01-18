@@ -71,32 +71,11 @@ main {
     color: gray;
 }
 
-/* Boutons et filtres */
-button, select {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #6200ea;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover, select:hover {
-    background-color: #4500b5;
-}
-
-button:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(98, 0, 234, 0.5);
-}
-
 /* Section de résumé du compte */
 .account-summary {
     padding: 20px;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #6200ea, #8e44ad);
+    background: linear-gradient(315deg, #6a11cb, #2545fc);
     color: white;
     border-radius: 10px;
     text-align: center;
