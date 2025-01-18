@@ -57,6 +57,6 @@ Vault-Pay is a web application for managing bank accounts. It allows users to ch
 ![Forms](https://github.com/user-attachments/assets/448b8726-c58b-4e8e-99a5-5311159ff11d)
 ![Panel Admin](https://github.com/user-attachments/assets/d16ba701-e869-40a6-a6aa-ddd818c7881f)
 
-## Databse Schemas
+## Database Schemas
 
-
+![Diagrame](https://github.com/user-attachments/assets/a46bdd0e-8919-45b3-8ab6-ce09b2ffb74c)
