@@ -13,7 +13,7 @@
     <div class="account-summary">
         <h2>{{ account.name }}</h2>
         <p class="available-balance">IBAN: {{ account.id }}</p>
-        <p class="balance">{{ account.balance | number_format(2, ',', ' ') }}€</p>
+        <p class="balance">{{ account.balance | number_format(2, '.', ',') }} €</p>
     </div>
 
     <h1>Historique des Transactions</h1>
