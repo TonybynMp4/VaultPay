@@ -47,3 +47,16 @@ Vault-Pay is a web application for managing bank accounts. It allows users to ch
 - Client account: View your account information and bank accounts, or create a new account
 - Admin page: Manage users, their bank accounts, and associated transactions
     - To add an admin user, create a user and then change the role in the `user` table of the database to "ROLE_ADMIN".
+ 
+## Wireframes
+![Accueil](https://github.com/user-attachments/assets/20aeaf97-ef0b-4de2-9012-96407e13286e)
+![Tableau de bord](https://github.com/user-attachments/assets/d0fab81e-12c3-48a1-a9d1-f021fa7a6c73)
+![Historique](https://github.com/user-attachments/assets/6c4ad535-1331-4f58-81dd-9a3acf4807e5)
+![Historique compte](https://github.com/user-attachments/assets/45260bc4-445b-4030-a696-a67e6c058167)
+![Compte Client](https://github.com/user-attachments/assets/8f6023b5-09b8-4d31-ba57-f4e83d6fea23)
+![Forms](https://github.com/user-attachments/assets/448b8726-c58b-4e8e-99a5-5311159ff11d)
+![Panel Admin](https://github.com/user-attachments/assets/d16ba701-e869-40a6-a6aa-ddd818c7881f)
+
+## Databse Schemas
+
+
