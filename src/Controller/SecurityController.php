@@ -44,8 +44,8 @@ class SecurityController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            $user->setRoles(['ROLE_USER']);
-
+            $isAdmin = $form->get('isAdmin')->getData();
+            $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
             $entityManager->persist($user);
 
             // create main bank account
